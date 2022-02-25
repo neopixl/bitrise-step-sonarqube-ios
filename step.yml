@@ -1,0 +1,122 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  Sonarqube iOS
+summary: |
+  Run Sonarqube checks and uploads to to your server
+description: |
+  This step run some utilities to check the quality of your code, scans the results, and upload them to your Sonarqube server.
+website: https://github.com/jdanthinne/bitrise-step-sonarqube-ios
+source_code_url: https://github.com/jdanthinne/bitrise-step-sonarqube-ios
+support_url: https://github.com/jdanthinne/bitrise-step-sonarqube-ios/issues
+host_os_tags:
+  - osx-10.10
+#  - ubuntu-16.04
+
+# If this step should be available only for certain project types
+# just uncomment this `project_type_tags` section and include all the
+# project types supported by the step. If the step can be used for all
+# project types then you can just remove this section.
+# If no `project_type_tags` specified (or specified as an empty array)
+# that means the step can be used for any project type.
+# You can find more information about project type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+#
+project_type_tags:
+  - ios
+#   - macos
+#   - android
+#   - xamarin
+#   - react-native
+#   - cordova
+#   - ionic
+
+# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
+# You can find more information about type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+type_tags:
+  - utility
+
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+  - name: git
+  - name: wget
+  - name: python
+  - name: swiftlint
+  - name: sonar
+  - name: sonar-scanner
+  - name: tailor
+  apt_get:
+  - name: git
+  - name: wget
+
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+
+inputs:
+  - project_key:
+    opts:
+      title: "Project Name"
+      description: |
+        The Project Name/Key to use on Sonarqube.
+      is_expand: true
+      is_required: true
+  - run_tests: "off"
+    opts:
+      title: "Run Unit Tests"
+      description: |
+        Wether or not to run unit test as part of the scan.
+      is_expand: true
+      is_required: true
+      value_options:
+        - "on"
+        - "off"
+  - tests_scheme:
+    opts:
+      title: "Tests Scheme"
+      description: |
+        If you run unit tests, please provide the test Scheme.
+      is_expand: true
+      is_required: false
+  - tests_simulator: "platform=iOS Simulator,name=iPhone 12"
+    opts:
+      title: "Tests Simulator"
+      description: |
+        If you run unit tests, please choose a simulator.
+      is_expand: true
+      is_required: false
+  - run_oclint: "off"
+    opts:
+      title: "Run OCLint"
+      description: |
+        Wether or not to run OCLint (Obj-C) as part of the scan.
+      is_expand: true
+      is_required: true
+      value_options:
+        - "on"
+        - "off"
+
+outputs:
+  - EXAMPLE_STEP_OUTPUT:
+    opts:
+      title: "Example Step Output"
+      summary: Summary. No more than 2-3 sentences.
+      description: |
+        Description of this output.
+
+        Can be Markdown formatted text.
