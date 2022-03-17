@@ -109,7 +109,7 @@ function runCommand() {
 vflag=""
 nflag=""
 unittests="${run_tests}"
-swiftlint="on"
+swiftlint="${run_swiftlint}"
 tailor="on"
 lizard="on"
 oclint="${run_oclint}"
@@ -346,7 +346,7 @@ fi
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then
-		runCommand /dev/stdout sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_HOST_LOGIN}"
+		runCommand /dev/stdout sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_HOST_LOGIN}" -Dsonar.projectKey="$binaryName"
     else
         echo 'Skipping sonar-scanner (not installed!)'
     fi

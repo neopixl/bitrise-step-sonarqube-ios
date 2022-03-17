@@ -100,6 +100,16 @@ inputs:
         If you run unit tests, please choose a simulator.
       is_expand: true
       is_required: false
+  - run_swiftlint: "on"
+    opts:
+      title: "Run Swiftlint"
+      description: |
+        Wether or not to run Swiftlint as part of the scan.
+      is_expand: true
+      is_required: true
+      value_options:
+        - "on"
+        - "off"
   - run_oclint: "off"
     opts:
       title: "Run OCLint"
@@ -110,13 +120,3 @@ inputs:
       value_options:
         - "on"
         - "off"
-
-outputs:
-  - EXAMPLE_STEP_OUTPUT:
-    opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this output.
-
-        Can be Markdown formatted text.
