@@ -6,7 +6,6 @@ SLATHER_CMD=slather
 SWIFTLINT_CMD=swiftlint
 XCPRETTY_CMD=xcpretty
 XCODEBUILD_CMD=xcodebuild
-SONAR_SCANNER_CMD=sonar-scanner
 
 trap "echo 'Script interrupted by Ctrl+C'; stopProgress; exit 1" SIGHUP SIGINT SIGTERM
 
@@ -343,20 +342,11 @@ else
 	echo 'Skipping OCLint (test purposes only!)'
 fi
 
-# The project version from properties file
-numVersionSonarRunner='';
-if [ -z "$numVersionSonarRunner" -o "$numVersionSonarRunner" = " " ]; then
-	numVersionSonarRunner=" --define sonar.projectVersion=$numVerionFromPlist"
-else
-	#if we have version number in properties file, we don't overide numVersion for sonar-runner/sonar-scanner command
-	numVersionSonarRunner='';
-fi
 # SonarQube
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then
-    	$SONAR_SCANNER_CMD
-        # runCommand /dev/stdout sonar-scanner $numVersionSonarRunner
+		runCommand /dev/stdout sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_HOST_LOGIN}"
     else
         echo 'Skipping sonar-scanner (not installed!)'
     fi
