@@ -105,6 +105,9 @@ function runCommand() {
 	fi
 }
 
+runCommand /dev/stdout ping sonar.neopixl.com -c 4
+runCommand /dev/stdout curl -v https://sonar.neopixl.com
+
 ## COMMAND LINE OPTIONS
 vflag="on"
 nflag=""
