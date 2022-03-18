@@ -105,8 +105,7 @@ function runCommand() {
 	fi
 }
 
-runCommand /dev/stdout ping sonar.neopixl.com -c 4
-runCommand /dev/stdout curl -v https://sonar.neopixl.com
+runCommand /dev/stdout curl -v "${SONAR_HOST_URL}"
 
 ## COMMAND LINE OPTIONS
 vflag="on"
@@ -329,7 +328,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName"
+sonarScannerOptions="--verbose -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName"
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then
