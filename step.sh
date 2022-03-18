@@ -106,7 +106,7 @@ function runCommand() {
 }
 
 ## COMMAND LINE OPTIONS
-vflag=""
+vflag="on"
 nflag=""
 unittests="${run_tests}"
 swiftlint="${run_swiftlint}"
