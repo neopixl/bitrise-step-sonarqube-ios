@@ -343,19 +343,20 @@ else
 fi
 
 # SonarQube
+sonarScannerOptions="-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName"
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then
-		runCommand /dev/stdout sonar-scanner -Dsonar.host.url="${SONAR_HOST_URL}" -Dsonar.login="${SONAR_HOST_LOGIN}" -Dsonar.projectKey="$binaryName"
+		runCommand /dev/stdout sonar-scanner $sonarScannerOptions
     else
         echo 'Skipping sonar-scanner (not installed!)'
     fi
 else
     echo -n 'Running SonarQube using SonarQube Runner'
     if hash /dev/stdout sonar-runner 2>/dev/null; then
-	   runCommand /dev/stdout sonar-runner $numVersionSonarRunner
+	   runCommand /dev/stdout sonar-runner $sonarScannerOptions
     else
-	   runCommand /dev/stdout sonar-scanner $numVersionSonarRunner
+	   runCommand /dev/stdout sonar-scanner $sonarScannerOptions
     fi
 fi
 
