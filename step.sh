@@ -155,24 +155,9 @@ tailorConfiguration=''
 excludedPathsFromCoverage=''
 
 # Check for mandatory parameters
-if [ -z "$projectFile" -o "$projectFile" = " " ] && [ -z "$workspaceFile" -o "$workspaceFile" = " " ]; then
-	echo >&2 "ERROR - sonar.swift.project or/and sonar.swift.workspace parameter is missing in sonar-project.properties. You must specify which projects (comma-separated list) are application code or which workspace and project to use."
-	exit 1
-elif [ ! -z "$workspaceFile" ] && [ -z "$projectFile" ]; then
-	echo >&2 "ERROR - sonar.swift.workspace parameter is present in sonar-project.properties but sonar.swift.project and is not. You must specify which projects (comma-separated list) are application code or which workspace and project to use."
-	exit 1
-fi
-if [ -z "$srcDirs" -o "$srcDirs" = " " ]; then
-	echo >&2 "ERROR - sonar.sources parameter is missing in sonar-project.properties. You must specify which directories contain your .swift source files (comma-separated list)."
-	exit 1
-fi
-if [ -z "$appScheme" -o "$appScheme" = " " ]; then
-	echo >&2 "ERROR - sonar.swift.appScheme parameter is missing in sonar-project.properties. You must specify which scheme is used to build your application."
-	exit 1
-fi
 if [ "$unittests" = "on" ]; then
     if [ -z "$destinationSimulator" -o "$destinationSimulator" = " " ]; then
-	      echo >&2 "ERROR - sonar.swift.simulator parameter is missing in sonar-project.properties. You must specify which simulator to use."
+	      echo >&2 "ERROR - You must specify which simulator to use for unit tests."
 	      exit 1
     fi
 fi
@@ -181,8 +166,6 @@ fi
 if [ -z "$appConfiguration" -o "$appConfiguration" = " " ]; then
 	appConfiguration="Debug"
 fi
-
-
 
 if [ "$vflag" = "on" ]; then
  	echo "Xcode project file is: $projectFile"
