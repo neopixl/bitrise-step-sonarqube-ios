@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 # Global parameters
 SLATHER_CMD=slather
