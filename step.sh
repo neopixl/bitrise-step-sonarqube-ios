@@ -105,8 +105,6 @@ function runCommand() {
 	fi
 }
 
-runCommand /dev/stdout curl -v "${SONAR_HOST_URL}"
-
 ## COMMAND LINE OPTIONS
 vflag="on"
 nflag=""
@@ -328,7 +326,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="--debug -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName"
+sonarScannerOptions="-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName -Dsonar.language=swift -Dsonar.exclusions=${exclusions}"
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then

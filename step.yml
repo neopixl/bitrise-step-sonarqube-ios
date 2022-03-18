@@ -120,3 +120,10 @@ inputs:
       value_options:
         - "on"
         - "off"
+  - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
+    opts:
+      title: "Exclusions"
+      description: |
+        Enter a comma-separated list of files to exclude from the scan. You can use wilcards.
+      is_expand: true
+      is_required: true
