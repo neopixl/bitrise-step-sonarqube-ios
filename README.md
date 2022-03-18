@@ -11,7 +11,7 @@ Reference it in your `bitrise.yml` with the `git::PUBLIC-GIT-CLONE-URL@BRANCH` s
 ```
 - git::https://github.com/neopixl/bitrise-step-sonarqube-ios:
    inputs:
-   - project_key: proximus-mytango
+   - project_key: client-project
    - exclusions: "**/*.xml,Pods/**/*,Reports/**/*"
 ```
 
