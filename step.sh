@@ -326,7 +326,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName -Dsonar.language=swift -Dsonar.exclusions=${exclusions}"
+sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=$binaryName -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization}"
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then

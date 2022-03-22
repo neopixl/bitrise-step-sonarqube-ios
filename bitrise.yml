@@ -4,7 +4,6 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 app:
   envs:
   # Secret params, define it in .bitrise.secrets.yml
-  - SONAR_HOST_URL: $SONAR_HOST_URL
   - SONAR_HOST_LOGIN: $SONAR_HOST_LOGIN
 
 workflows:

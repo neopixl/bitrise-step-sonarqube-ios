@@ -17,12 +17,11 @@ Reference it in your `bitrise.yml` with the `git::PUBLIC-GIT-CLONE-URL@BRANCH` s
 
 The `project_key` and `exclusions` are editable as well with the Bitrise UI, as well as other options (Swiftlint, tests, etc.)
 
-### Add secret values
+### Add secret value
 
-In order to upload results to you Sonar server, two secret environment variables are required:
+In order to upload results to you Sonar server, a secret environment variable is required:
 
-1. `$SONAR_HOST_URL`, containing the url of your Sonar server (ie. https://sonar.myserver.com).
-2. `$SONAR_HOST_LOGIN`, containing the authorization token for your server.
+1. `$SONAR_HOST_LOGIN`, containing the authorization token for your server.
 
 ## How to contribute to this Step
 

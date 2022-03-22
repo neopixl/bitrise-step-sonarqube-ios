@@ -76,6 +76,20 @@ inputs:
         The Project Name/Key to use on Sonarqube.
       is_expand: true
       is_required: true
+  - sonar_host_url:
+    opts:
+      title: "Sonar Host URL"
+      description: |
+        The URL of you Sonar server (ie. https://sonar.myserver.com).
+      is_expand: true
+      is_required: true
+  - sonar_host_organization:
+    opts:
+      title: "Sonar Host Organization"
+      description: |
+        The name of your organization (for Sonarcloud.io).
+      is_expand: true
+      is_required: false
   - run_tests: "off"
     opts:
       title: "Run Unit Tests"
