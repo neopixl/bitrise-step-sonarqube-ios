@@ -114,6 +114,13 @@ inputs:
         If you run unit tests, please provide the test Scheme.
       is_expand: true
       is_required: false
+  - tests_binary_name:
+    opts:
+      title: "Tests Module names"
+      description: |
+        If you run unit test, and want coverage only for some targets, enter them here.
+      is_expand: true
+      is_required: false
   - tests_simulator: "platform=iOS Simulator,name=iPhone 12"
     opts:
       title: "Tests Simulator"
