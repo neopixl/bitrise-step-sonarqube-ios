@@ -259,7 +259,7 @@ if [ "$unittests" = "on" ]; then
 
     slatherCmd=($SLATHER_CMD coverage)
     if [[ ! -z "$binaryName" ]]; then
-		IFS= "," read -ra NAMES <<< "$binaryName"
+		IFS="," read -ra NAMES <<< "$binaryName"
 		for i in "${NAMES[@]}"; do
 			slatherCmd+=( --binary-basename "$i")
 		done
