@@ -140,10 +140,6 @@ appConfiguration=''
 testScheme="${tests_scheme}"
 # The name of your binary file (application)
 binaryName="${project_key}"
-# Get the path of plist file
-plistFile=`xcodebuild -showBuildSettings -project "${projectFile}" | grep -i 'PRODUCT_SETTINGS_PATH' -m 1 | sed 's/[ ]*PRODUCT_SETTINGS_PATH = //'`
-# Number version from plist if no sonar.projectVersion
-numVerionFromPlist=`defaults read ${plistFile} CFBundleShortVersionString`
 
 # Read destination simulator
 destinationSimulator="${tests_simulator}"
@@ -171,7 +167,6 @@ if [ "$vflag" = "on" ]; then
  	echo "Xcode project file is: $projectFile"
 	echo "Xcode workspace file is: $workspaceFile"
  	echo "Xcode application scheme is: $appScheme"
-    echo "Number version from plist is: $numVerionFromPlist"
   if [ -n "$unittests" ]; then
  	    echo "Destination simulator is: $destinationSimulator"
  	    echo "Excluded paths from coverage are: $excludedPathsFromCoverage"
