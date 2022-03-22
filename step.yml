@@ -118,7 +118,7 @@ inputs:
     opts:
       title: "Tests Module names"
       description: |
-        If you run unit test, and want coverage only for some targets, enter them here.
+        If you run unit test, and want coverage only for some targets, enter them here, separated by a comma (and don't leave whitespaces, plz).
       is_expand: true
       is_required: false
   - tests_simulator: "platform=iOS Simulator,name=iPhone 12"
