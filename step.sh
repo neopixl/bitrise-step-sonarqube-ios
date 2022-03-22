@@ -133,7 +133,7 @@ fi
 # Source directories for .swift files
 srcDirs='./';
 # The name of your application scheme in Xcode
-appScheme="${BITRISE_SCHEME}"
+appScheme="${app_scheme}"
 # The app configuration to use for the build
 appConfiguration=''
 # The name of your test scheme in Xcode

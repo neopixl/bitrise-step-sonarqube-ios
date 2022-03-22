@@ -69,6 +69,13 @@ toolkit:
 
 
 inputs:
+  - app_scheme: "$BITRISE_SCHEME"
+    opts:
+      title: "Scheme"
+      description: |
+        The name of your application scheme in Xcode
+      is_expand: true
+      is_required: true
   - project_key:
     opts:
       title: "Project Name"
