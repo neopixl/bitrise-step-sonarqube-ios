@@ -292,10 +292,7 @@ fi
 
 # Unit surefire and coverage
 if [ "$unittests" = "on" ]; then
-
-    # Put default xml files with no surefire and no coverage...
-    echo "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><testsuites name='AllTestUnits'></testsuites>" > sonar-reports/TEST-report.xml
-    echo "<?xml version='1.0' ?><!DOCTYPE coverage SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'><coverage><sources></sources><packages></packages></coverage>" > sonar-reports/coverage-swift.xml
+	mkdir Build
 
     echo '\nRunning tests'
     buildCmd=($XCODEBUILD_CMD clean build test)
@@ -304,7 +301,7 @@ if [ "$unittests" = "on" ]; then
     elif [[ ! -z "$projectFile" ]]; then
 	      buildCmd+=(-project "$projectFile")
     fi
-    buildCmd+=( -scheme "$appScheme" -configuration "$appConfiguration" -enableCodeCoverage YES)
+    buildCmd+=( -scheme "$appScheme" -configuration "$appConfiguration" -derivedDataPath Build -enableCodeCoverage YES)
     if [[ ! -z "$destinationSimulator" ]]; then
         buildCmd+=(-destination "$destinationSimulator" -destination-timeout 60)
     fi
