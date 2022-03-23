@@ -119,24 +119,23 @@ function convert_file {
 
 function xccov_to_generic {
   echo '<coverage version="1">'
-  for xccovarchive_file in "$@"; do
-    if [[ ! -d $xccovarchive_file ]]
-    then
-      echo "Coverage FILE NOT FOUND AT PATH: $xccovarchive_file" 1>&2;
-      exit 1
-    fi
+  xccovarchive_file = "$@"
+  if [[ ! -d $xccovarchive_file ]]
+  then
+    echo "Coverage FILE NOT FOUND AT PATH: $xccovarchive_file" 1>&2;
+    exit 1
+  fi
 
-    if [ $sdk_version -gt 10 ]; then # Apply optimization
-       xccovarchive_file=$(optimize_format)
-    fi
+  if [ $sdk_version -gt 10 ]; then # Apply optimization
+    xccovarchive_file=$(optimize_format)
+  fi
 
-    local xccov_options=""
-    if [[ $xccovarchive_file == *".xcresult"* ]]; then
-      xccov_options="--archive"
-    fi
-    xcrun xccov view $xccov_options --file-list "$xccovarchive_file" | while read -r file_name; do
-      convert_file "$xccovarchive_file" "$file_name" "$xccov_options"
-    done
+  local xccov_options=""
+  if [[ $xccovarchive_file == *".xcresult"* ]]; then
+    xccov_options="--archive"
+  fi
+  xcrun xccov view $xccov_options --file-list "$xccovarchive_file" | while read -r file_name; do
+    convert_file "$xccovarchive_file" "$file_name" "$xccov_options"
   done
   echo '</coverage>'
 }
@@ -292,23 +291,7 @@ fi
 
 # Unit surefire and coverage
 if [ "$unittests" = "on" ]; then
-	mkdir Build
-
-    echo '\nRunning tests'
-    buildCmd=($XCODEBUILD_CMD clean build test)
-    if [[ ! -z "$workspaceFile" ]]; then
-        buildCmd+=(-workspace "$workspaceFile")
-    elif [[ ! -z "$projectFile" ]]; then
-	      buildCmd+=(-project "$projectFile")
-    fi
-    buildCmd+=( -scheme "$appScheme" -configuration "$appConfiguration" -derivedDataPath Build -enableCodeCoverage YES)
-    if [[ ! -z "$destinationSimulator" ]]; then
-        buildCmd+=(-destination "$destinationSimulator" -destination-timeout 60)
-    fi
-
-    echo '\nComputing coverage report\n'
-
-	runCommand sonar-reports/sonarqube-generic-coverage.xml xccov_to_generic Build/Logs/Test/*.xcresult/
+	runCommand sonar-reports/sonarqube-generic-coverage.xml xccov_to_generic "${BITRISE_XCRESULT_PATH}"
 fi
 
 # SwiftLint
