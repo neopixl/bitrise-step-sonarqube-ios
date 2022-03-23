@@ -119,7 +119,7 @@ function convert_file {
 
 function xccov_to_generic {
   echo '<coverage version="1">'
-  local xccovarchive_file = "$@"
+  local xccovarchive_file="$@"
   if [[ ! -d $xccovarchive_file ]]
   then
     echo "Coverage FILE NOT FOUND AT PATH: $xccovarchive_file" 1>&2;
