@@ -2,7 +2,6 @@
 set -e
 
 # Global parameters
-SLATHER_CMD=slather
 SWIFTLINT_CMD=swiftlint
 XCPRETTY_CMD=xcpretty
 XCODEBUILD_CMD=xcodebuild
@@ -105,6 +104,85 @@ function runCommand() {
 	fi
 }
 
+function convert_file {
+  local xccovarchive_file="$1"
+  local file_name="$2"
+  local xccov_options="$3"
+  echo "  <file path=\"$file_name\">"
+  xcrun xccov view $xccov_options --file "$file_name" "$xccovarchive_file" | \
+    sed -n '
+    s/^ *\([0-9][0-9]*\): 0.*$/    <lineToCover lineNumber="\1" covered="false"\/>/p;
+    s/^ *\([0-9][0-9]*\): [1-9].*$/    <lineToCover lineNumber="\1" covered="true"\/>/p
+    '
+  echo '  </file>'
+}
+
+function xccov_to_generic {
+  echo '<coverage version="1">'
+  for xccovarchive_file in "$@"; do
+    if [[ ! -d $xccovarchive_file ]]
+    then
+      echo "Coverage FILE NOT FOUND AT PATH: $xccovarchive_file" 1>&2;
+      exit 1
+    fi
+
+    if [ $sdk_version -gt 10 ]; then # Apply optimization
+       xccovarchive_file=$(optimize_format)
+    fi
+
+    local xccov_options=""
+    if [[ $xccovarchive_file == *".xcresult"* ]]; then
+      xccov_options="--archive"
+    fi
+    xcrun xccov view $xccov_options --file-list "$xccovarchive_file" | while read -r file_name; do
+      convert_file "$xccovarchive_file" "$file_name" "$xccov_options"
+    done
+  done
+  echo '</coverage>'
+}
+
+function check_sdk_version {
+  sdk_major_version=`xcrun --show-sdk-version | cut -d . -f 1`
+
+  if [ $? -ne 0 ]; then 
+    echo 'Failed to execute xcrun show-sdk-version' 1>&2
+    exit -1
+  fi
+  echo $sdk_major_version
+}
+
+function cleanup_tmp_files {
+  rm -rf tmp.json
+  rm -rf tmp.xccovarchive
+}
+
+# Optimize coverage files conversion time by exporting to a clean xcodearchive directory
+# Credits to silverhammermba on issue #68 for the suggestion
+function optimize_format {
+  cleanup_tmp_files
+  xcrun xcresulttool get --format json --path "$xccovarchive_file" > tmp.json
+  if [ $? -ne 0 ]; then 
+    echo 'Failed to execute xcrun xcresulttool get' 1>&2
+    exit -1
+  fi
+
+  # local reference=$(jq -r '.actions._values[2].actionResult.coverage.archiveRef.id._value'  tmp.json)
+  local reference=$(jq -r '.actions._values[]|[.actionResult.coverage.archiveRef.id],._values'  tmp.json | grep value | cut -d : -f 2 | cut -d \" -f 2)
+  if [ $? -ne 0 ]; then 
+    echo 'Failed to execute jq (https://stedolan.github.io/jq/)' 1>&2
+    exit -1
+  fi
+  # $reference can be a list of IDs (from a merged .xcresult bundle of multiple test plans)
+  for test_ref in $reference; do
+    xcrun xcresulttool export --type directory --path "$xccovarchive_file" --id "$test_ref" --output-path tmp.xccovarchive
+    if [ $? -ne 0 ]; then 
+      echo "Failed to execute xcrun xcresulttool export for reference ${test_ref}" 1>&2
+      exit -1
+    fi
+  done
+  echo "tmp.xccovarchive"
+}
+
 ## COMMAND LINE OPTIONS
 vflag="on"
 nflag=""
@@ -147,9 +225,6 @@ destinationSimulator="${tests_simulator}"
 # Read tailor configuration
 tailorConfiguration=''
 
-# The file patterns to exclude from coverage report
-excludedPathsFromCoverage=''
-
 # Check for mandatory parameters
 if [ "$unittests" = "on" ]; then
     if [ -z "$destinationSimulator" -o "$destinationSimulator" = " " ]; then
@@ -169,7 +244,6 @@ if [ "$vflag" = "on" ]; then
  	echo "Xcode application scheme is: $appScheme"
   if [ -n "$unittests" ]; then
  	    echo "Destination simulator is: $destinationSimulator"
- 	    echo "Excluded paths from coverage are: $excludedPathsFromCoverage"
   else
       echo "Unit surefire are disabled"
   fi
@@ -223,7 +297,7 @@ if [ "$unittests" = "on" ]; then
     echo "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><testsuites name='AllTestUnits'></testsuites>" > sonar-reports/TEST-report.xml
     echo "<?xml version='1.0' ?><!DOCTYPE coverage SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'><coverage><sources></sources><packages></packages></coverage>" > sonar-reports/coverage-swift.xml
 
-    echo -n 'Running surefire'
+    echo '\nRunning tests'
     buildCmd=($XCODEBUILD_CMD clean build test)
     if [[ ! -z "$workspaceFile" ]]; then
         buildCmd+=(-workspace "$workspaceFile")
@@ -235,47 +309,9 @@ if [ "$unittests" = "on" ]; then
         buildCmd+=(-destination "$destinationSimulator" -destination-timeout 60)
     fi
 
-    runCommand  sonar-reports/xcodebuild.log "${buildCmd[@]}"
-    cat sonar-reports/xcodebuild.log  | $XCPRETTY_CMD -t --report junit
-    mv build/reports/junit.xml sonar-reports/TEST-report.xml
-
-
     echo '\nComputing coverage report\n'
 
-    # Build the --exclude flags
-    excludedCommandLineFlags=""
-    if [ ! -z "$excludedPathsFromCoverage" -a "$excludedPathsFromCoverage" != " " ]; then
-	      echo $excludedPathsFromCoverage | sed -n 1'p' | tr ',' '\n' > tmpFileRunSonarSh2
-	      while read word; do
-		        excludedCommandLineFlags+=" -i $word"
-	      done < tmpFileRunSonarSh2
-	      rm -rf tmpFileRunSonarSh2
-    fi
-    if [ "$vflag" = "on" ]; then
-	      echo "Command line exclusion flags for slather is:$excludedCommandLineFlags"
-    fi
-
-	firstProject=$(echo $projectFile | sed -n 1'p' | tr ',' '\n' | head -n 1)
-
-    slatherCmd=($SLATHER_CMD coverage)
-    if [[ ! -z "$binaryName" ]]; then
-		IFS="," read -ra NAMES <<< "$binaryName"
-		for i in "${NAMES[@]}"; do
-			slatherCmd+=( --binary-basename "$i")
-		done
-    fi
-
-    slatherCmd+=( --input-format profdata $excludedCommandLineFlags --cobertura-xml --output-directory sonar-reports)
-
-    if [[ ! -z "$workspaceFile" ]]; then
-        slatherCmd+=( --workspace "$workspaceFile")
-    fi
-    slatherCmd+=( --scheme "$appScheme" "$firstProject")
-
-    echo "${slatherCmd[@]}"
-
-    runCommand /dev/stdout "${slatherCmd[@]}"
-    mv sonar-reports/cobertura.xml sonar-reports/coverage-swift.xml
+	runCommand sonar-reports/sonarqube-generic-coverage.xml xccov_to_generic Build/Logs/Test/*.xcresult/
 fi
 
 # SwiftLint
@@ -324,7 +360,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.swift.coverage.reportPath=sonar-reports/coverage-swift.xml -Dsonar.organization=${sonar_host_organization}"
+sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.coverageReportPaths=sonar-reports/sonarqube-generic-coverage.xml -Dsonar.organization=${sonar_host_organization}"
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then
