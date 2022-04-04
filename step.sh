@@ -344,7 +344,7 @@ sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HO
 
 if [ "$unittests" = "on" ]; then
 	sonarScannerOptions+=" -Dsonar.coverageReportPaths=sonar-reports/sonarqube-generic-coverage.xml"
-	if [ -z "${tests_exclusions}" ]; then
+	if [[ ! -z "${tests_exclusions}" ]]; then
 		sonarScannerOptions+=" -Dsonar.coverage.exclusions=${tests_exclusions}"
 	fi
 fi
