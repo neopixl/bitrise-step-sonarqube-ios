@@ -121,6 +121,13 @@ inputs:
         If you run unit test, and want coverage only for some targets, enter them here, separated by a comma (and don't leave whitespaces, plz).
       is_expand: true
       is_required: false
+  - tests_exclusions: "**/Pods/**/*"
+    opts:
+      title: "Tests Exclusions"
+      description: |
+        Enter a comma-separated list of files to exclude from the tests coverage. You can use wilcards.
+      is_expand: true
+      is_required: false
   - tests_simulator: "platform=iOS Simulator,name=iPhone 12"
     opts:
       title: "Tests Simulator"
