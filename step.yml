@@ -69,6 +69,20 @@ toolkit:
 
 
 inputs:
+  - xcode_project: "$BITRISE_PROJECT_PATH"
+    opts:
+      title: "Project path"
+      description: |
+        Xcode Project (.xcodeproj) path.
+      is_expand: true
+      is_required: true
+  - xcode_workspace: "$BITRISE_WORKSPACE_PATH"
+    opts:
+      title: "Workspace path"
+      description: |
+        Xcode Workspace (.xcworkspace) path.
+      is_expand: true
+      is_required: true
   - app_scheme: "$BITRISE_SCHEME"
     opts:
       title: "Scheme"

@@ -196,8 +196,8 @@ sonarscanner="on"
 echo "Running run-sonar-swift.sh..."
 
 #.xcodeproj filename
-projectFile="${BITRISE_PROJECT_PATH}"
-workspaceFile="${BITRISE_WORKSPACE_PATH}"
+projectFile="${xcode_project}"
+workspaceFile="${xcode_workspace}"
 
 # Count projects
 if [[ ! -z "$projectFile" ]]; then
