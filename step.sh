@@ -271,7 +271,7 @@ if [[ "$workspaceFile" != "" ]] ; then
 else
     buildCmdPrefix="-project $projectFile"
 fi
-buildCmd=($XCODEBUILD_CMD clean build $buildCmdPrefix -scheme $appScheme)
+buildCmd=($XCODEBUILD_CMD clean build $buildCmdPrefix -scheme "$appScheme")
 if [[ ! -z "$destinationSimulator" ]]; then
     buildCmd+=(-destination "$destinationSimulator" -destination-timeout 360 COMPILER_INDEX_STORE_ENABLE=NO)
 fi
