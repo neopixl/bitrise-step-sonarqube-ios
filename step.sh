@@ -349,16 +349,16 @@ if [ "$unittests" = "on" ]; then
 	fi
 fi
 
-if [ $PR ]; then
-  echo "Switching to Pull Request mode"
+if [ -z "$BITRISE_PULL_REQUEST" ]; then
+  echo "Switching to Single Branch mode"
+  echo "- Branch Name: ${BITRISE_GIT_BRANCH}"
+  sonarScannerOptions+=" -Dsonar.branch.name=${BITRISE_GIT_BRANCH}"
+else 
+echo "Switching to Pull Request mode"
   echo "- Pull Request Branch: ${BITRISE_GIT_BRANCH}"
   echo "- Pull Request Key: ${BITRISE_PULL_REQUEST}"
   echo "- Pull Request Base: ${BITRISE_GIT_BRANCH_DEST}"
   sonarScannerOptions+=" -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
-else 
-  echo "Switching to Single Branch mode"
-  echo "- Branch Name: ${BITRISE_GIT_BRANCH}"
-  sonarScannerOptions+=" -Dsonar.branch.name=${BITRISE_GIT_BRANCH}"
 fi
 
 if [ "$sonarscanner" = "on" ]; then
