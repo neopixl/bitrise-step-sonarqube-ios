@@ -13,9 +13,9 @@ summary: |
   Run Sonarqube checks and uploads to to your server
 description: |
   This step run some utilities to check the quality of your code, scans the results, and upload them to your Sonarqube server.
-website: https://github.com/jdanthinne/bitrise-step-sonarqube-ios
-source_code_url: https://github.com/jdanthinne/bitrise-step-sonarqube-ios
-support_url: https://github.com/jdanthinne/bitrise-step-sonarqube-ios/issues
+website: https://github.com/neopixl/bitrise-step-sonarqube-ios
+source_code_url: https://github.com/neopixl/bitrise-step-sonarqube-ios
+support_url: https://github.com/neopixl/bitrise-step-sonarqube-ios/issues
 host_os_tags:
   - osx-10.10
 #  - ubuntu-16.04
@@ -51,22 +51,20 @@ run_if: ""
 
 deps:
   brew:
-  - name: git
-  - name: wget
-  - name: python
-  - name: swiftlint
-  - name: sonar
-  - name: sonar-scanner
-  - name: tailor
+    - name: git
+    - name: wget
+    - name: python
+    - name: swiftlint
+    - name: sonar
+    - name: sonar-scanner
+    - name: tailor
   apt_get:
-  - name: git
-  - name: wget
-
+    - name: git
+    - name: wget
 
 toolkit:
   bash:
     entry_file: step.sh
-
 
 inputs:
   - xcode_project: "$BITRISE_PROJECT_PATH"
