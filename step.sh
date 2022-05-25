@@ -349,6 +349,12 @@ if [ "$unittests" = "on" ]; then
 	fi
 fi
 
+if [ $PR ]; then
+  sonarScannerOptions+=" -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
+else 
+  sonarScannerOptions+=" -Dsonar.branch.name=${BITRISE_GIT_BRANCH}"
+fi
+
 if [ "$sonarscanner" = "on" ]; then
     echo -n 'Running SonarQube using SonarQube Scanner'
     if hash /dev/stdout sonar-scanner 2>/dev/null; then
