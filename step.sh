@@ -280,7 +280,7 @@ runCommand  xcodebuild.log "${buildCmd[@]}"
 cat xcodebuild.log | $XCPRETTY_CMD -r json-compilation-database -o compile_commands.json
 
 # Extract version
-projet_version=($XCODEBUILD_CMD $buildCmdPrefix -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION =')
+projet_version=`$XCODEBUILD_CMD $buildCmdPrefix -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='`
 
 # Objective-C code detection
 hasObjC="no"
