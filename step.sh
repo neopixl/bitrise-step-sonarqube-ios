@@ -279,6 +279,9 @@ runCommand  xcodebuild.log "${buildCmd[@]}"
 #oclint-xcodebuild # Transform the xcodebuild.log file into a compile_command.json file
 cat xcodebuild.log | $XCPRETTY_CMD -r json-compilation-database -o compile_commands.json
 
+# Extract version
+projet_version=($XCODEBUILD_CMD $buildCmdPrefix -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION =')
+
 # Objective-C code detection
 hasObjC="no"
 compileCmdFile=compile_commands.json
@@ -340,7 +343,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization}"
+sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version}"
 
 if [ "$unittests" = "on" ]; then
 	sonarScannerOptions+=" -Dsonar.coverageReportPaths=sonar-reports/sonarqube-generic-coverage.xml"
