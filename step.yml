@@ -167,6 +167,16 @@ inputs:
       value_options:
         - "on"
         - "off"
+  - run_dependency_check: "on"
+    opts:
+      title: "Use dependency check"
+      description: |
+        Wether or not to use dependency check as part of the scan.
+      is_expand: true
+      is_required: true
+      value_options:
+        - "on"
+        - "off"
   - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
     opts:
       title: "Exclusions"

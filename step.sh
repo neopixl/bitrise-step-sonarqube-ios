@@ -190,6 +190,7 @@ swiftlint="${run_swiftlint}"
 tailor="on"
 lizard="on"
 oclint="${run_oclint}"
+dependencycheck="${run_dependency_check}"
 sonarscanner="on"
 
 # Usage OK
@@ -350,6 +351,10 @@ if [ "$unittests" = "on" ]; then
 	if [[ ! -z "${tests_exclusions}" ]]; then
 		sonarScannerOptions+=" -Dsonar.coverage.exclusions=${tests_exclusions}"
 	fi
+fi
+
+if [ "$dependencycheck" = "on" ]; then
+	sonarScannerOptions+=" -Dsonar.dependencyCheck.jsonReportPath=${workspaceFile}/../dependency-check-report.json"
 fi
 
 if [ -z "$BITRISE_PULL_REQUEST" ]; then
