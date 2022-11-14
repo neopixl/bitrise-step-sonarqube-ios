@@ -174,3 +174,10 @@ inputs:
         Enter a comma-separated list of files to exclude from the scan. You can use wilcards.
       is_expand: true
       is_required: true
+  - extras: ""
+    opts:
+      title: "Extra Parameters"
+      description: |
+        Add extra parameters to provide to the `sonar-scanner` command (e.g. `-D sonar.foo=bar`)
+      is_expand: true
+      is_required: false
