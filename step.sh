@@ -190,6 +190,7 @@ swiftlint="${run_swiftlint}"
 tailor="on"
 lizard="on"
 oclint="${run_oclint}"
+dependencycheck="${run_dependency_check}"
 sonarscanner="on"
 
 # Usage OK
@@ -352,6 +353,10 @@ if [ "$unittests" = "on" ]; then
 	fi
 fi
 
+if [ "$dependencycheck" = "on" ]; then
+	sonarScannerOptions+=" -Dsonar.dependencyCheck.jsonReportPath=${workspaceFile}/../dependency-check-report.json"
+fi
+
 if [ -z "$BITRISE_PULL_REQUEST" ]; then
   echo "Switching to Single Branch mode"
   echo "- Branch Name: ${BITRISE_GIT_BRANCH}"
@@ -362,6 +367,13 @@ echo "Switching to Pull Request mode"
   echo "- Pull Request Key: ${BITRISE_PULL_REQUEST}"
   echo "- Pull Request Base: ${BITRISE_GIT_BRANCH_DEST}"
   sonarScannerOptions+=" -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
+fi
+
+if [ -z $extras ]; then 
+    echo -n 'No extra parameter provided'
+else 
+    echo -n "Adding extra parameters: $extras"
+    sonarScannerOptions+=" ${extras}"
 fi
 
 if [ "$sonarscanner" = "on" ]; then
