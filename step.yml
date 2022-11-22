@@ -140,7 +140,7 @@ inputs:
         Enter a comma-separated list of files to exclude from the tests coverage. You can use wilcards.
       is_expand: true
       is_required: false
-  - tests_simulator: "platform=iOS Simulator,name=iPhone 12"
+  - tests_simulator: "platform=iOS Simulator,name=iPhone 11"
     opts:
       title: "Tests Simulator"
       description: |
