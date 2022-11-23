@@ -362,7 +362,7 @@ if [ "$dependencycheck" = "on" ]; then
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
 	echo "\n\n"
-	
+
 	cd $BITRISE_SOURCE_DIR
 
 	brew update && brew install dependency-check
@@ -378,7 +378,7 @@ if [ "$dependencycheck" = "on" ]; then
     echo "$COCOAPODS_FILE does not exist."
 	fi
 
-	SPM_FILE=/$projectFile/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+	SPM_FILE=$projectFile/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 	SPM_SCAN_CMD=""
 	if [ -f "$SPM_FILE" ]; then
 		echo "$SPM_FILE exist."
