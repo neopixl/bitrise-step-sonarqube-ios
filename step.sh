@@ -355,7 +355,11 @@ fi
 
 if [ "$dependencycheck" = "on" ]; then
 
-	echo "-- Launch Dependency Culnerabilities Check --"
+	echo "-- --------------------------------------- --"
+	echo "-- --------------------------------------- --"
+	echo "-| Launch Dependency Vulnerabilities Check |-"
+	echo "-- --------------------------------------- --"
+	echo "-- --------------------------------------- --"
 
 	cd $BITRISE_SOURCE_DIR
 
