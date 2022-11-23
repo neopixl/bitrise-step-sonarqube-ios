@@ -355,12 +355,14 @@ fi
 
 if [ "$dependencycheck" = "on" ]; then
 
+	echo "\n\n"
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
 	echo "-| Launch Dependency Vulnerabilities Check |-"
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
-
+	echo "\n\n"
+	
 	cd $BITRISE_SOURCE_DIR
 
 	brew update && brew install dependency-check
