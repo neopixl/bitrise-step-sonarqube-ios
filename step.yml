@@ -80,7 +80,7 @@ inputs:
       description: |
         Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) 4
       is_expand: false
-      is_required: false
+      is_required: true
   - app_scheme: "$BITRISE_SCHEME"
     opts:
       title: "Scheme"
