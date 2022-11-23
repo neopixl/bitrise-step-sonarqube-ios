@@ -354,7 +354,41 @@ if [ "$unittests" = "on" ]; then
 fi
 
 if [ "$dependencycheck" = "on" ]; then
-	sonarScannerOptions+=" -Dsonar.dependencyCheck.jsonReportPath=${workspaceFile}/../dependency-check-report.json"
+
+	echo "-- Launch Dependency Culnerabilities Check --"
+
+	cd $BITRISE_SOURCE_DIR
+
+	brew update && brew install dependency-check
+
+	echo "- Check if project use Cocoapods, SwiftPackages or both..."
+
+	COCOAPODS_FILE=/Users/vagrant/git/Podfile.lock
+	COCOAPODS_SCAN_CMD=""
+	if [ -f "$COCOAPODS_FILE" ]; then
+		echo "$COCOAPODS_FILE exist."
+    COCOAPODS_SCAN_CMD="--scan $COCOAPODS_FILE"
+	else 
+    echo "$COCOAPODS_FILE does not exist."
+	fi
+
+	SPM_FILE=/$projectFile.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+	SPM_SCAN_CMD=""
+	if [ -f "$SPM_FILE" ]; then
+		echo "$SPM_FILE exist."
+    SPM_SCAN_CMD="--scan $SPM_FILE"
+	else 
+    echo "$SPM_FILE does not exist."
+	fi
+
+  dependency-check --enableExperimental --project ${project_key} --format JSON --format HTML $COCOAPODS_SCAN_CMD $SPM_SCAN_CMD --cveUrlModified https://neopixlnist:nIwNhuEJOU8A@neopixl-nist.forge.smile.fr/nvdcve-1.1-modified.json.gz --cveUrlBase https://neopixlnist:nIwNhuEJOU8A@neopixl-nist.forge.smile.fr/nvdcve-1.1-%d.json.gz --data /Users/vagrant/DependencyCheckCVECacheDB
+
+	echo "-- Add sonarScannerOptions to manage Dependency-check Report --"
+
+	sonarScannerOptions+=" -Dsonar.dependencyCheck.htmlReportPath=dependency-check-report.html"
+	sonarScannerOptions+=" -Dsonar.dependencyCheck.jsonReportPath=dependency-check-report.json"
+	sonarScannerOptions+=" -Dsonar.dependencyCheck.securityHotspot=true"
+	sonarScannerOptions+=" -Dsonar.dependencyCheck.summarize=true"
 fi
 
 if [ -z "$BITRISE_PULL_REQUEST" ]; then
