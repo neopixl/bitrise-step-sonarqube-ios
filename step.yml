@@ -74,11 +74,11 @@ inputs:
         Xcode Project (.xcodeproj) path.
       is_expand: true
       is_required: true
-  - xcode_workspace: "$BITRISE_PROJECT_PATH"
+  - xcode_workspace:
     opts:
       title: "Workspace path"
       description: |
-        Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) 5
+        Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace)
       is_expand: true
       is_required: false
   - app_scheme: "$BITRISE_SCHEME"
