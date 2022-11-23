@@ -198,7 +198,7 @@ echo "Running run-sonar-swift.sh..."
 
 #.xcodeproj filename
 projectFile="${xcode_project}"
-workspaceFile="${xcode_workspace}"
+workspaceFile=${xcode_workspace}
 
 # Count projects
 if [[ ! -z "$projectFile" ]]; then
@@ -240,9 +240,6 @@ fi
 
 if [ "$vflag" = "on" ]; then
  	echo "Xcode project file is: $projectFile"
- 	echo $workspaceFile
- 	echo "${xcode_workspace}"
- 	echo ${xcode_workspace}
 	echo "Xcode workspace file is: $workspaceFile"
  	echo "Xcode application scheme is: $appScheme"
   if [ -n "$unittests" ]; then
