@@ -191,6 +191,7 @@ tailor="on"
 lizard="on"
 oclint="${run_oclint}"
 dependencycheck="${run_dependency_check}"
+bomDtrack="${send_BoM_to_Dtrack}"
 sonarscanner="on"
 
 # Usage OK
@@ -395,6 +396,82 @@ if [ "$dependencycheck" = "on" ]; then
 	sonarScannerOptions+=" -Dsonar.dependencyCheck.jsonReportPath=dependency-check-report.json"
 	sonarScannerOptions+=" -Dsonar.dependencyCheck.securityHotspot=true"
 	sonarScannerOptions+=" -Dsonar.dependencyCheck.summarize=true"
+fi
+
+if [ "$bomDtrack" = "on" ]; then
+
+	echo "\n\n"
+	echo "-- --------------------------------------- --"
+	echo "-- --------------------------------------- --"
+	echo "-| Create BoM and send it to Dependency-Track |-"
+	echo "-- --------------------------------------- --"
+	echo "-- --------------------------------------- --"
+	echo "\n\n"
+
+	cd $BITRISE_SOURCE_DIR
+
+	touch sbom.json
+	echo "" >> sbom.json
+
+	sbom_strat=$(cat <<-END
+    {
+    "bomFormat": "CycloneDX",
+    "version": 1,
+    "specVersion": "1.4",
+    "components": [
+	END
+	)
+
+	echo $sbom_strat >> sbom.json
+
+	jq -c '.pins[]' $projectFile/project.xcworkspace/xcshareddata/swiftpm/Package.resolved | while read i; do
+    identity=$(echo $i | jq '.identity')
+    url=$(echo $i | jq '.location')
+    revision=$(echo $i | jq '.state.revision')
+    version=$(echo $i | jq '.state.version')
+
+    prefix="\""
+
+    idWithout=${identity/#$prefix}
+    idWithout=${idWithout/%$prefix}
+
+    vWithout=${version/#$prefix}
+    vWithout=${vWithout/%$prefix}
+
+    purl="pkg:swift/"
+    purl+=$idWithout
+    purl+=@
+    purl+=$vWithout
+
+    VALUE=$(cat <<-END
+    {
+        "type": "library",
+        "name": ${identity},
+        "version": ${version},
+        "purl": "${purl}",
+        "externalReferences": [
+            {"url": ${url},
+            "type": "vcs"}
+        ]
+    },
+	END
+	)
+
+echo $VALUE >> sbom.json
+done
+
+echo $(sed '$ s/.$//' sbom.json) > sbom.json
+echo "]}" >> sbom.json
+
+echo "$(<sbom.json)"
+
+echo "-sending JSON to Dtrack..."
+
+curl -v -X "POST" "https://dtrackneopixl:ZxnkEC30g0pB@dtrack-neopixl.forge.smile.fr/api/v1/bom" \
+        -H 'Content-Type: multipart/form-data' \
+        -H "X-Api-Key: 2NGXB8Orq75Coa4JRkWjkrmAtD0QW6C4" \
+        -F "autoCreate=true" \
+        -F "projectName=${project_key}" \
 fi
 
 if [ -z "$BITRISE_PULL_REQUEST" ]; then

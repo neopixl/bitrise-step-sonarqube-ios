@@ -177,6 +177,16 @@ inputs:
       value_options:
         - "on"
         - "off"
+  - send_BoM_to_Dtrack: "on"
+    opts:
+      title: "Send BoM to dependency-track"
+      description: |
+        Wether or not send the BoM to dependency-track (only work with SPM)
+      is_expand: true
+      is_required: true
+      value_options:
+        - "on"
+        - "off"
   - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
     opts:
       title: "Exclusions"
