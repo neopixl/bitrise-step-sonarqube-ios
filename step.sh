@@ -400,13 +400,11 @@ fi
 
 if [ "$bomDtrack" = "on" ]; then
 
-	echo "\n\n"
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
 	echo "-| Create BoM and send it to Dependency-Track |-"
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
-	echo "\n\n"
 
 	cd $BITRISE_SOURCE_DIR
 
