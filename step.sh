@@ -469,8 +469,9 @@ if [ "$bomDtrack" = "on" ]; then
         -H "X-Api-Key: 2NGXB8Orq75Coa4JRkWjkrmAtD0QW6C4" \
         -F "autoCreate=true" \
         -F "projectName=${project_key}" \
-        -F "bom=@sbom.json"
-	}
+        -F "projectVersion=3.0.0" \
+        -F "bom=@sbom.json" 
+        
 fi
 
 if [ -z "$BITRISE_PULL_REQUEST" ]; then
