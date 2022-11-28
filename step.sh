@@ -414,11 +414,11 @@ if [ "$bomDtrack" = "on" ]; then
 	echo "" >> sbom.json
 
 	sbom_strat=$(cat <<-END
-    {
-    "bomFormat": "CycloneDX",
-    "version": 1,
-    "specVersion": "1.4",
-    "components": [
+	    {
+	    "bomFormat": "CycloneDX",
+	    "version": 1,
+	    "specVersion": "1.4",
+	    "components": [
 	END
 	)
 
@@ -444,34 +444,34 @@ if [ "$bomDtrack" = "on" ]; then
     purl+=$vWithout
 
     VALUE=$(cat <<-END
-    {
-        "type": "library",
-        "name": ${identity},
-        "version": ${version},
-        "purl": "${purl}",
-        "externalReferences": [
+    		{
+        	"type": "library",
+        	"name": ${identity},
+        	"version": ${version},
+        	"purl": "${purl}",
+        	"externalReferences": [
             {"url": ${url},
             "type": "vcs"}
-        ]
-    },
-	END
-	)
+        	]
+    		},
+		END
+		)
+		echo $VALUE >> sbom.json
+	done
 
-echo $VALUE >> sbom.json
-done
+	echo $(sed '$ s/.$//' sbom.json) > sbom.json
+	echo "]}" >> sbom.json
 
-echo $(sed '$ s/.$//' sbom.json) > sbom.json
-echo "]}" >> sbom.json
+	echo "$(<sbom.json)"
 
-echo "$(<sbom.json)"
+	echo "-sending JSON to Dtrack..."
 
-echo "-sending JSON to Dtrack..."
-
-curl -v -X "POST" "https://dtrackneopixl:ZxnkEC30g0pB@dtrack-neopixl.forge.smile.fr/api/v1/bom" \
+	curl -v -X "POST" "https://dtrackneopixl:ZxnkEC30g0pB@dtrack-neopixl.forge.smile.fr/api/v1/bom" \
         -H 'Content-Type: multipart/form-data' \
         -H "X-Api-Key: 2NGXB8Orq75Coa4JRkWjkrmAtD0QW6C4" \
         -F "autoCreate=true" \
         -F "projectName=${project_key}" \
+	}
 fi
 
 if [ -z "$BITRISE_PULL_REQUEST" ]; then
