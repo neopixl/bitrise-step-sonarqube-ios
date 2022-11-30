@@ -177,6 +177,13 @@ inputs:
       value_options:
         - "on"
         - "off"
+  - nist_base_url: "https://XXX:XXX@neopixl-nist.forge.smile.fr"
+    opts:
+      title: "NIST Base URL"
+      description: |
+        Location where CVE will be downloaded (nist neopixl mirror by default)
+      is_expand: true
+      is_required: true
   - send_BoM_to_Dtrack: "on"
     opts:
       title: "Send BoM to dependency-track"
@@ -187,6 +194,20 @@ inputs:
       value_options:
         - "on"
         - "off"
+  - dtrack_base_url: "https://XXX:XXX@dtrack-neopixl.forge.smile.fr"
+    opts:
+      title: "Dependency-track Base URL"
+      description: |
+        Location where Dtrack server is hosted (forge smile by default)
+      is_expand: true
+      is_required: true
+  - dtrack_api_key:
+    opts:
+      title: "Dependency-track API Key"
+      description: |
+        API Key of dtrack
+      is_expand: true
+      is_required: false
   - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
     opts:
       title: "Exclusions"

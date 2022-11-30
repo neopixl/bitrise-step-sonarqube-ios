@@ -356,13 +356,13 @@ fi
 
 if [ "$dependencycheck" = "on" ]; then
 
-	echo "\n\n"
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
 	echo "-| Launch Dependency Vulnerabilities Check |-"
 	echo "-- --------------------------------------- --"
 	echo "-- --------------------------------------- --"
-	echo "\n\n"
+
+	NISTBaseUrl="${nist_base_url}"
 
 	cd $BITRISE_SOURCE_DIR
 
@@ -370,7 +370,7 @@ if [ "$dependencycheck" = "on" ]; then
 
 	echo "- Check if project use Cocoapods, SwiftPackages or both..."
 
-	COCOAPODS_FILE=/Users/vagrant/git/Podfile.lock
+	COCOAPODS_FILE=$projectFile/Podfile.lock
 	COCOAPODS_SCAN_CMD=""
 	if [ -f "$COCOAPODS_FILE" ]; then
 		echo "$COCOAPODS_FILE exist."
@@ -388,7 +388,7 @@ if [ "$dependencycheck" = "on" ]; then
     echo "$SPM_FILE does not exist."
 	fi
 
-  dependency-check --enableExperimental --project ${project_key} --format JSON --format HTML $COCOAPODS_SCAN_CMD $SPM_SCAN_CMD --cveUrlModified https://neopixlnist:nIwNhuEJOU8A@neopixl-nist.forge.smile.fr/nvdcve-1.1-modified.json.gz --cveUrlBase https://neopixlnist:nIwNhuEJOU8A@neopixl-nist.forge.smile.fr/nvdcve-1.1-%d.json.gz --data /Users/vagrant/DependencyCheckCVECacheDB
+  dependency-check --enableExperimental --project ${project_key} --format JSON --format HTML $COCOAPODS_SCAN_CMD $SPM_SCAN_CMD --cveUrlModified $NISTBaseUrl/nvdcve-1.1-modified.json.gz --cveUrlBase $NISTBaseUrl/nvdcve-1.1-%d.json.gz --data /Users/vagrant/DependencyCheckCVECacheDB
 
 	echo "-- Add sonarScannerOptions to manage Dependency-check Report --"
 
@@ -407,6 +407,9 @@ if [ "$bomDtrack" = "on" ]; then
 	echo "-- --------------------------------------- --"
 
 	cd $BITRISE_SOURCE_DIR
+
+	dtrackBaseUrl="${dtrack_base_url}"
+	dtrackAPIKey="${dtrack_api_key}"
 
 	touch sbom.json
 	echo "" >> sbom.json
@@ -464,12 +467,12 @@ if [ "$bomDtrack" = "on" ]; then
 
 	echo "-sending JSON to Dtrack..."
 
-	curl -v -X "POST" "https://dtrackneopixl:ZxnkEC30g0pB@dtrack-neopixl.forge.smile.fr/api/v1/bom" \
+	curl -v -X "POST" "$dtrackBaseUrl/api/v1/bom" \
         -H 'Content-Type: multipart/form-data' \
-        -H "X-Api-Key: 2NGXB8Orq75Coa4JRkWjkrmAtD0QW6C4" \
+        -H "X-Api-Key: $dtrackAPIKey" \
         -F "autoCreate=true" \
         -F "projectName=${project_key}" \
-        -F "projectVersion=3.0.0" \
+        -F "projectVersion=$projet_version" \
         -F "bom=@sbom.json" 
         
 fi
