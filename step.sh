@@ -410,6 +410,7 @@ if [ "$bomDtrack" = "on" ]; then
 
 	dtrackBaseUrl="${dtrack_base_url}"
 	dtrackAPIKey="${dtrack_api_key}"
+	githubAPIToken="${github_api_token}"
 
 echo "   | Starting the creation of the SBOM.JSON file (CycloneDX format)"
 
@@ -462,7 +463,7 @@ echo "            | Search for License in github..."
 	suffix_removed_String=${prefix_removed_string/%$gitSuffix1}
 	gitLocation=${suffix_removed_String/%$gitSuffix2}
 	giturl="https://api.github.com/repos/$gitLocation/license"
-	spdx_id=$(	curl $giturl -H "Accept: application/vnd.github+json"  -H "Authorization: Bearer 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" -H "X-GitHub-Api-Version: 2022-11-28" | jq '.license.spdx_id')
+	spdx_id=$(	curl $giturl -H "Accept: application/vnd.github+json"  -H "Authorization: Bearer $githubAPIToken" -H "X-GitHub-Api-Version: 2022-11-28" | jq '.license.spdx_id')
 
 echo "            | Search for CPE (vulnerabilities) thanks to DCheck report..."
 	touch tempCVE.txt
