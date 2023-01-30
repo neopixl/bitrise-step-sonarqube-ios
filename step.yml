@@ -210,9 +210,9 @@ inputs:
       is_required: false
   - github_api_token:
     opts:
-      title: "GIT HUB API TOKEN TO RETRIEVE LICENCE OF LIB"
+      title: "Github API token (used to retrieve licence of librairies)"
       description: |
-        API Key of GIHUB
+        API Key of Github
       is_expand: true
       is_required: false
   - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
