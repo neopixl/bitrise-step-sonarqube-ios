@@ -411,8 +411,11 @@ if [ "$bomDtrack" = "on" ]; then
 	dtrackBaseUrl="${dtrack_base_url}"
 	dtrackAPIKey="${dtrack_api_key}"
 
+echo "   | Starting the creation of the SBOM.JSON file (CycloneDX format)"
+
 	touch sbom.json
 	echo "" >> sbom.json
+	> sbom.json
 
 	sbom_strat=$(cat <<-END
 	    {
@@ -425,12 +428,18 @@ if [ "$bomDtrack" = "on" ]; then
 
 	echo $sbom_strat >> sbom.json
 
-	jq -c '.pins[]' $projectFile/project.xcworkspace/xcshareddata/swiftpm/Package.resolved | while read i; do
+echo "      | Parse Package.resolved (from SPM) and extract needed value for the BOM file"
+
+	jq -c '.pins[]' Package.resolved | while read i; do
     identity=$(echo $i | jq '.identity')
     url=$(echo $i | jq '.location')
     revision=$(echo $i | jq '.state.revision')
     version=$(echo $i | jq '.state.version')
+    location=$(echo $i | jq '.location')
 
+echo "        | Manage $identity"
+
+echo "            | Generate PURL..."
     prefix="\""
 
     idWithout=${identity/#$prefix}
@@ -444,15 +453,57 @@ if [ "$bomDtrack" = "on" ]; then
     purl+=@
     purl+=$vWithout
 
+echo "            | Search for License in github..."
+	gitPrefix="\"https://github.com/"
+	gitSuffix1="\""
+	gitSuffix2=".git"
+	string=$location
+	prefix_removed_string=${string/#$gitPrefix}
+	suffix_removed_String=${prefix_removed_string/%$gitSuffix1}
+	gitLocation=${suffix_removed_String/%$gitSuffix2}
+	giturl="https://api.github.com/repos/$gitLocation/license"
+	spdx_id=$(	curl $giturl -H "Accept: application/vnd.github+json"  -H "Authorization: Bearer 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" -H "X-GitHub-Api-Version: 2022-11-28" | jq '.license.spdx_id')
+
+echo "            | Search for CPE (vulnerabilities) thanks to DCheck report..."
+	touch tempCVE.txt
+	echo "" > tempCVE.txt
+	sed -i -e 's/\\"//g' dependency-check-report.json
+    jq -c '.dependencies[]' dependency-check-report.json | while read i; do
+    	
+    	fileName=$(echo $i | jq '.fileName')
+
+		fileNameWithoutVersion=(${fileName//:/ })
+		idtty="${identity//\"}"
+		fname="${fileNameWithoutVersion[0]//\"}"
+
+		if [[ $fname == $idtty ]]; then
+			vulnerabilityCPE=$(echo $i | jq '.vulnerabilityIds[0].id')
+
+			vulnerabilityCPE="${vulnerabilityCPE:1}"
+			vulnerabilityCPE=${vulnerabilityCPE%?}
+
+
+			echo "$vulnerabilityCPE" > tempCVE.txt
+    	fi
+    done 
+    cve=$(<tempCVE.txt)
+
     VALUE=$(cat <<-END
     		{
         	"type": "library",
         	"name": ${identity},
         	"version": ${version},
+        	"cpe": "$cve",
         	"purl": "${purl}",
         	"externalReferences": [
             {"url": ${url},
-            "type": "vcs"}
+            "type": "vcs"}],
+            "licenses": [
+        	{
+        		"license": {
+        			"id": ${spdx_id}
+        		}
+        	}
         	]
     		},
 		END
@@ -463,9 +514,10 @@ if [ "$bomDtrack" = "on" ]; then
 	echo $(sed '$ s/.$//' sbom.json) > sbom.json
 	echo "]}" >> sbom.json
 
-	echo "$(<sbom.json)"
+echo "\n---- | ---FINAL BOM.JSON REPORT:\n"
+echo "$(<sbom.json)"
 
-	echo "-sending JSON to Dtrack..."
+echo "\nSending JSON to Dtrack...\n"
 
 	curl -v -X "POST" "$dtrackBaseUrl/api/v1/bom" \
         -H 'Content-Type: multipart/form-data' \
