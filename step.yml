@@ -208,6 +208,13 @@ inputs:
         API Key of dtrack
       is_expand: true
       is_required: false
+  - github_api_token:
+    opts:
+      title: "GIT HUB API TOKEN TO RETRIEVE LICENCE OF LIB"
+      description: |
+        API Key of GIHUB
+      is_expand: true
+      is_required: false
   - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
     opts:
       title: "Exclusions"
