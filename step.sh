@@ -345,7 +345,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version}"
+sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version} -Dsonar.qualitygate.wait=true"
 
 if [ "$unittests" = "on" ]; then
 	sonarScannerOptions+=" -Dsonar.coverageReportPaths=sonar-reports/sonarqube-generic-coverage.xml"
@@ -365,7 +365,7 @@ if [ "$dependencycheck" = "on" ]; then
 	NISTBaseUrl="${nist_base_url}"
 
 	cd $BITRISE_SOURCE_DIR
-
+	
 	brew update && brew install dependency-check
 
 	echo "- Check if project use Cocoapods, SwiftPackages or both..."
