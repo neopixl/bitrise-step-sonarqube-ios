@@ -366,7 +366,7 @@ if [ "$dependencycheck" = "on" ]; then
 
 	cd $BITRISE_SOURCE_DIR
 	
-	brew update && brew install dependency-check
+	brew install dependency-check
 
 	echo "- Check if project use Cocoapods, SwiftPackages or both..."
 
