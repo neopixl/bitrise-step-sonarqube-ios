@@ -272,7 +272,7 @@ if [[ "$workspaceFile" != "" ]] ; then
 else
     buildCmdPrefix="-project $projectFile"
 fi
-buildCmd=($XCODEBUILD_CMD clean build $buildCmdPrefix -scheme "$appScheme")
+buildCmd=($XCODEBUILD_CMD -skipPackagePluginValidation clean build $buildCmdPrefix -scheme "$appScheme")
 if [[ ! -z "$destinationSimulator" ]]; then
     buildCmd+=(-destination "$destinationSimulator" -destination-timeout 360 COMPILER_INDEX_STORE_ENABLE=NO)
 fi
@@ -344,7 +344,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version}"
+sonarScannerOptions="-X -Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version}"
 
 if [ "$unittests" = "on" ]; then
 	sonarScannerOptions+=" -Dsonar.coverageReportPaths=sonar-reports/sonarqube-generic-coverage.xml"
