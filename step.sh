@@ -192,6 +192,7 @@ lizard="on"
 oclint="${run_oclint}"
 dependencycheck="${run_dependency_check}"
 sonarscanner="on"
+enableDebug="${enable_detailed_log}"
 
 # Usage OK
 echo "Running run-sonar-swift.sh..."
@@ -344,7 +345,11 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-X -Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version}"
+if [ "$enableDebug" = "on"]; then
+    sonarScannerOptions="-X "
+fi
+
+sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version}"
 
 if [ "$unittests" = "on" ]; then
 	sonarScannerOptions+=" -Dsonar.coverageReportPaths=sonar-reports/sonarqube-generic-coverage.xml"
