@@ -177,6 +177,14 @@ inputs:
       value_options:
         - "on"
         - "off"
+  - enable_detailed_log: "off"
+    opts:
+       title: "Enable detailed log for debugging mode"
+       is_expand: true
+       is_required: true
+       value_options:
+       - "on"
+       - "off"
   - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
     opts:
       title: "Exclusions"
