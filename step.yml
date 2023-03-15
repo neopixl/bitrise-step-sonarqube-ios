@@ -55,7 +55,7 @@ deps:
     - name: wget
     - name: python
     - name: swiftlint
-    - name: sonar
+    - name: sonarqube
     - name: sonar-scanner
     - name: tailor
   apt_get:
