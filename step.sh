@@ -198,8 +198,8 @@ enableDebug="${enable_detailed_log}"
 echo "Running run-sonar-swift.sh..."
 
 #.xcodeproj filename
-projectFile="${xcode_project}"
-workspaceFile="${xcode_workspace}"
+projectFile=`${xcode_project}`
+workspaceFile=`${xcode_workspace}`
 
 # Count projects
 if [[ ! -z "$projectFile" ]]; then
@@ -212,13 +212,13 @@ fi
 # Source directories for .swift files
 srcDirs='./';
 # The name of your application scheme in Xcode
-appScheme="${app_scheme}"
+appScheme=`${app_scheme}`
 # The app configuration to use for the build
 appConfiguration=''
 # The name of your test scheme in Xcode
-testScheme="${tests_scheme}"
+testScheme=`${tests_scheme}`
 # The name of your binary file (application)
-binaryName="${tests_binary_name}"
+binaryName=`${tests_binary_name}`
 
 # Read destination simulator
 destinationSimulator="${tests_simulator}"
