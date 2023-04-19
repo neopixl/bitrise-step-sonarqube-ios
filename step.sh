@@ -345,7 +345,7 @@ else
 fi
 
 # SonarQube
-sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.apple.periphery.schemes=${app_scheme} -Dsonar.projectName=${project_name} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.organization=${sonar_host_organization} -Dsonar.projectVersion=${projet_version} -Dsonar.qualitygate.wait=true"
+sonarScannerOptions="-Dsonar.host.url=${sonar_host_url} -Dsonar.login=${SONAR_HOST_LOGIN} -Dsonar.projectKey=${project_key} -Dsonar.apple.periphery.schemes=${app_scheme} -Dsonar.language=swift -Dsonar.exclusions=${exclusions} -Dsonar.projectVersion=${projet_version} -Dsonar.qualitygate.wait=true -X -Dsonar.verbose=true"
 
 if [[ "$workspaceFile" != "" ]] ; then
     sonarScannerOptions+=" -Dsonar.apple.workspace=$workspaceFile"
