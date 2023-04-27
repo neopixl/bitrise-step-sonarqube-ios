@@ -3,15 +3,14 @@ import os
 print("\n\n\n\n\n* * * * * * * *      STARTING NEOPIXL SONAR SCRIPT       * * * * * * * * * \n\n\n\n\n", flush=True)
 
 # Install all dependencies
-print("\n\n\n\n\n* * * * * * * *      Install all dependencies       * * * * * * * * * \n", flush=True)
+print("\n\n\n\n\n* * * * * * * *      Install needed all dependencies       * * * * * * * * * \n", flush=True)
 
 os.system("pip3 install mobsfscan");
-
-project_root_path = "/Users/vagrant/git" #"/Users/joris/Documents/Neopixl/Apps/Visa-iOS" #
 
 # Retrieve all user injected variables
 print("\n\n\n\n\n* * * * * * * *      Retrieve all user injected variables       * * * * * * * * * \n", flush=True)
 
+project_root_path = "/Users/vagrant/git" #"/Users/joris/Documents/Neopixl/Apps/Visa-iOS" #
 sonar_project_name = "visa-ios"
 xcodeproj_path = "%s/Visa.xcodeproj" % project_root_path
 xcworkspace_path = ""
@@ -44,7 +43,6 @@ sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
 
 # Dependency Check (security hotspot)
 print("\n\n\n\n\n* * * * * * * *      Add Dependency-check to sonar options       * * * * * * * * * \n", flush=True)
-#os.system("xcodebuild -resolvePackageDependencies"); #generate spm package.resolved used for dependency check TODO: need that ?
 dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML --scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % (xcodeproj_path, xcodeproj_path)
 os.system(dep_check_cmd);
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
@@ -57,7 +55,7 @@ print("\n\n\n\n\n* * * * * * * *      Verbose to sonar options       * * * * * *
 #sonar_scanner_cmd += "-X -Dsonar.verbose=true "
 
 print("\n\n\n\n\n* * * * * * * *      RUN SONAR COMMAND       * * * * * * * * * \n", flush=True)
-print("cmd sonar-scanner === %s" % sonar_scanner_cmd, flush=True)
+print("cmd sonar-scanner == %s" % sonar_scanner_cmd, flush=True)
 os.system(sonar_scanner_cmd);
 
 
