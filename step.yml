@@ -58,26 +58,24 @@ deps:
   apt_get:
     - name: git
     - name: wget
-  pip3:
-    - name: mobsfscan
 
 toolkit:
   bash:
     entry_file: step.sh
 
 inputs:
-  - xcode_project: "$BITRISE_PROJECT_PATH"
+  - xcode_project_path: "$BITRISE_XCODEPROJ_PATH"
     opts:
       title: "Project path"
       description: |
-        Xcode Project (.xcodeproj) path.
+        Xcode Project (.xcodeproj) path. ie: Tango.xcodeproj
       is_expand: true
       is_required: true
-  - xcode_workspace:
+  - xcode_workspace_path:
     opts:
-      title: "Workspace path"
+      title: "BITRISE_XCWORKSPACE_PATH"
       description: |
-        Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace)
+        Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: Tango.xcworkspace)
       is_expand: true
       is_required: false
   - app_scheme: "$BITRISE_SCHEME"
@@ -87,144 +85,24 @@ inputs:
         The name of your application scheme in Xcode
       is_expand: true
       is_required: true
-  - project_key:
+  - sonar_project_key: "BITRISE_SONAR_PROJECT_NAME"
     opts:
       title: "Project Name"
       description: |
         The Project Name/Key to use on Sonarqube.
       is_expand: true
       is_required: true
-  - sonar_host_url:
+  - sonar_host_url: "BITRISE_SONAR_HOST_URL"
     opts:
       title: "Sonar Host URL"
       description: |
         The URL of you Sonar server (ie. https://sonar.myserver.com).
       is_expand: true
       is_required: true
-  - sonar_host_organization:
+  - sonar_login: "BITRISE_SONAR_LOGIN"
     opts:
-      title: "Sonar Host Organization"
+      title: "Sonar Login"
       description: |
-        The name of your organization (for Sonarcloud.io).
-      is_expand: true
-      is_required: false
-  - run_tests: "off"
-    opts:
-      title: "Run Unit Tests"
-      description: |
-        Wether or not to run unit test as part of the scan.
+        Sonar login
       is_expand: true
       is_required: true
-      value_options:
-        - "on"
-        - "off"
-  - tests_scheme:
-    opts:
-      title: "Tests Scheme"
-      description: |
-        If you run unit tests, please provide the test Scheme.
-      is_expand: true
-      is_required: false
-  - tests_binary_name:
-    opts:
-      title: "Tests Module names"
-      description: |
-        If you run unit test, and want coverage only for some targets, enter them here, separated by a comma (and don't leave whitespaces, plz).
-      is_expand: true
-      is_required: false
-  - tests_exclusions: "**/Pods/**/*"
-    opts:
-      title: "Tests Exclusions"
-      description: |
-        Enter a comma-separated list of files to exclude from the tests coverage. You can use wilcards.
-      is_expand: true
-      is_required: false
-  - tests_simulator: "platform=iOS Simulator,name=iPhone 11"
-    opts:
-      title: "Tests Simulator"
-      description: |
-        If you run unit tests, please choose a simulator.
-      is_expand: true
-      is_required: false
-  - run_swiftlint: "on"
-    opts:
-      title: "Run Swiftlint"
-      description: |
-        Wether or not to run Swiftlint as part of the scan.
-      is_expand: true
-      is_required: true
-      value_options:
-        - "on"
-        - "off"
-  - run_oclint: "off"
-    opts:
-      title: "Run OCLint"
-      description: |
-        Wether or not to run OCLint (Obj-C) as part of the scan.
-      is_expand: true
-      is_required: true
-      value_options:
-        - "on"
-        - "off"
-  - run_dependency_check: "on"
-    opts:
-      title: "Use dependency check"
-      description: |
-        Wether or not to use dependency check as part of the scan.
-      is_expand: true
-      is_required: true
-      value_options:
-        - "on"
-        - "off"
-  - nist_base_url: "https://XXX:XXX@neopixl-nist.forge.smile.fr"
-    opts:
-      title: "NIST Base URL"
-      description: |
-        Location where CVE will be downloaded (nist neopixl mirror by default)
-      is_expand: true
-      is_required: true
-  - send_BoM_to_Dtrack: "on"
-    opts:
-      title: "Send BoM to dependency-track"
-      description: |
-        Wether or not send the BoM to dependency-track (only work with SPM)
-      is_expand: true
-      is_required: true
-      value_options:
-        - "on"
-        - "off"
-  - dtrack_base_url: "https://XXX:XXX@dtrack-neopixl.forge.smile.fr"
-    opts:
-      title: "Dependency-track Base URL"
-      description: |
-        Location where Dtrack server is hosted (forge smile by default)
-      is_expand: true
-      is_required: true
-  - dtrack_api_key:
-    opts:
-      title: "Dependency-track API Key"
-      description: |
-        API Key of dtrack
-      is_expand: true
-      is_required: false
-  - github_api_token:
-    opts:
-      title: "Github API token (used to retrieve licence of librairies)"
-      description: |
-        API Key of Github
-      is_expand: true
-      is_required: false
-  - exclusions: "**/*.xml,**/Pods/**/*,Reports/**/*"
-    opts:
-      title: "Exclusions"
-      description: |
-        Enter a comma-separated list of files to exclude from the scan. You can use wilcards.
-      is_expand: true
-      is_required: true
-  - extras: ""
-    opts:
-      title: "Extra Parameters"
-      description: |
-        Add extra parameters to provide to the `sonar-scanner` command (e.g. `-D sonar.foo=bar`)
-      is_expand: true
-      is_required: false

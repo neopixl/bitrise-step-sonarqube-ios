@@ -3,27 +3,23 @@ import os
 print("\n\n\n\n\n* * * * * * * *      STARTING NEOPIXL SONAR SCRIPT       * * * * * * * * * \n\n\n\n\n", flush=True)
 
 # Install all dependencies
-print("\n\n\n\n\n* * * * * * * *      Install needed all dependencies       * * * * * * * * * \n", flush=True)
+print("\n\n\n\n\n* * * * * * * *      Install all needed dependencies       * * * * * * * * * \n", flush=True)
 
 os.system("pip3 install mobsfscan");
+
+project_root_path = "/Users/vagrant/git"
 
 # Retrieve all user injected variables
 print("\n\n\n\n\n* * * * * * * *      Retrieve all user injected variables       * * * * * * * * * \n", flush=True)
 
-project_root_path = "/Users/vagrant/git" #"/Users/joris/Documents/Neopixl/Apps/Visa-iOS" #
-sonar_project_name = "visa-ios"
-xcodeproj_path = "%s/Visa.xcodeproj" % project_root_path
-xcworkspace_path = ""
-scheme = "Visa-env_DEV"
-sonar_host_url = "https://sonar.smile.fr"
-sonar_login = "a94185abb45a1db7dd9f2f14d101a6eaf0b7b9c0"
+xcodeproj_path = "%s/%s" % (project_root_path, sys.argv[1])
+xcworkspace_path = "%s/%s" % (project_root_path, sys.argv[2])
+scheme = sys.argv[3]
+sonar_project_name = sys.argv[4]
+sonar_host_url = sys.argv[5]
+sonar_login = sys.argv[6]
 
-print("	    sonar project name 		= %s" % sonar_project_name, flush=True)
-print("	    project_root_path 		= %s" % project_root_path, flush=True)
-print("	    xcodeproj_path 			= %s" % xcodeproj_path, flush=True)
-print("	    xcworkspace_path 		= %s" % xcworkspace_path, flush=True)
-print("	    scheme 					= %s" % scheme, flush=True)
-print("	    sonar_host_url 			= %s" % sonar_host_url, flush=True)
+print("\n\n\n\n\n* * * * * * * *   TEST_TEST_TEST %s %s \n",(xcodeproj_path, scheme))
 
 # Prepare sonar-scanner options
 print("\n\n\n\n\n* * * * * * * *      Prepare sonar-scanner options       * * * * * * * * * \n", flush=True)
