@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-python3 sonnar-ios-step.py
+/usr/bin/python3 sonnar-ios-step.py

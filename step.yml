@@ -51,13 +51,10 @@ run_if: ""
 
 deps:
   brew:
-    - name: git
-    - name: wget
-    - name: python
-    - name: swiftlint
-    - name: sonar
     - name: sonar-scanner
-    - name: tailor
+    - name: swiftlint
+    - name: dependency-check
+    - name: python3
   apt_get:
     - name: git
     - name: wget
