@@ -1,4 +1,5 @@
 import os
+import sys
 
 print("\n\n\n\n\n* * * * * * * *      STARTING NEOPIXL SONAR SCRIPT       * * * * * * * * * \n\n\n\n\n", flush=True)
 
