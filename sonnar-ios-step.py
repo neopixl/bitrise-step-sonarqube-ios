@@ -1,16 +1,18 @@
 import os
 
-print("""\n
+print("""\n\n\n
 ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗██╗  ██╗██╗         ███████╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ███████╗████████╗███████╗██████╗ 
 ████╗  ██║██╔════╝██╔═══██╗██╔══██╗██║╚██╗██╔╝██║         ██╔════╝██╔═══██╗████╗  ██║██╔══██╗██╔══██╗    ██╔════╝╚══██╔══╝██╔════╝██╔══██╗
 ██╔██╗ ██║█████╗  ██║   ██║██████╔╝██║ ╚███╔╝ ██║         ███████╗██║   ██║██╔██╗ ██║███████║██████╔╝    ███████╗   ██║   █████╗  ██████╔╝
 ██║╚██╗██║██╔══╝  ██║   ██║██╔═══╝ ██║ ██╔██╗ ██║         ╚════██║██║   ██║██║╚██╗██║██╔══██║██╔══██╗    ╚════██║   ██║   ██╔══╝  ██╔═══╝ 
 ██║ ╚████║███████╗╚██████╔╝██║     ██║██╔╝ ██╗███████╗    ███████║╚██████╔╝██║ ╚████║██║  ██║██║  ██║    ███████║   ██║   ███████╗██║     
 ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝    ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝    ╚══════╝   ╚═╝   ╚══════╝╚═╝                                                                                                                                                                                                                    
-\n\n""", flush=True)
+\n""", flush=True)
+
+project_root_path = "/Users/vagrant/git"
 
 # Install all dependencies
-print("""\n\n
+print("""\n
  ___                                    __  _ 
   |  ._   _ _|_  _. | |   |\/|  _  |_  (_  |_ 
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
@@ -18,7 +20,7 @@ print("""\n\n
 
 os.system("pip3 install mobsfscan --quiet");
 
-project_root_path = "/Users/vagrant/git"
+print("\n-> MobSF installed\n", flush=True)
 
 # Retrieve all user injected variables
 print("""\n\n
@@ -29,7 +31,7 @@ print("""\n\n
  \n""", flush=True)
 
 #project configuration
-print("\n-> Add profect configuration\n", flush=True)
+print("\n-> Add project configuration\n", flush=True)
 xcodeproj_path = "%s/%s" % (project_root_path, os.getenv('xcode_project_path'))
 xcworkspace_path = "%s/%s" % (project_root_path, os.getenv('xcode_workspace_path')) #todo: use it when needed
 scheme = os.getenv('app_scheme')
@@ -68,7 +70,7 @@ sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
 
 # Dependency Check (security hotspot)
 print("\n-> Add Dependency-check to sonar options \n", flush=True)
-dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML --quiet --scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % (xcodeproj_path, xcodeproj_path)
+dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML --scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % (xcodeproj_path, xcodeproj_path)
 print("\n-> Launch Dependency-check cmd \n", flush=True)
 os.system(dep_check_cmd);
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
@@ -85,7 +87,7 @@ print("""\n\n
 if verbose_mode_enabled == 'on':
 	sonar_scanner_cmd += "-X -Dsonar.verbose=true "
 
-print("\n-> Final cmd sonar-scanner == %s" % sonar_scanner_cmd, flush=True)
+print("\n-> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
 os.system(sonar_scanner_cmd);
 
 
