@@ -3,6 +3,14 @@ import sys
 
 print("\n\n\n\n\n* * * * * * * *      STARTING NEOPIXL SONAR SCRIPT       * * * * * * * * * \n\n\n\n\n", flush=True)
 
+TEST1 = os.getenv('xcode_project_path')
+TEST2 = os.getenv('${xcode_project_path}')
+TEST3 = os.getenv('$xcode_project_path')
+
+print("_____________TTTTTTTTTTTTTEST_1111 = %s" % TEST1)
+print("_____________TTTTTTTTTTTTTEST_2222 = %s" % TEST2)
+print("_____________TTTTTTTTTTTTTEST_2222 = %s" % TEST3)
+
 # Install all dependencies
 print("\n\n\n\n\n* * * * * * * *      Install all needed dependencies       * * * * * * * * * \n", flush=True)
 
