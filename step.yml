@@ -64,45 +64,69 @@ toolkit:
     entry_file: step.sh
 
 inputs:
-  - xcode_project_path: "$BITRISE_XCODEPROJ_PATH"
+  - xcode_project_path:
     opts:
-      title: "Project path"
+      title: "Xcode Project path"
       description: |
         Xcode Project (.xcodeproj) path. ie: Tango.xcodeproj
       is_expand: true
       is_required: true
   - xcode_workspace_path:
     opts:
-      title: "BITRISE_XCWORKSPACE_PATH"
+      title: "(opt) Xcode Workspace path"
       description: |
-        Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: Tango.xcworkspace)
+        (only if exist (using cocoapods for exemple)) Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: Tango.xcworkspace)
       is_expand: true
       is_required: false
-  - app_scheme: "$BITRISE_SCHEME"
+  - app_scheme: 
     opts:
       title: "Scheme"
       description: |
         The name of your application scheme in Xcode
       is_expand: true
       is_required: true
-  - sonar_project_key: "BITRISE_SONAR_PROJECT_NAME"
+  - sonar_project_key: 
     opts:
       title: "Project Name"
       description: |
         The Project Name/Key to use on Sonarqube.
       is_expand: true
       is_required: true
-  - sonar_host_url: "BITRISE_SONAR_HOST_URL"
+  - sonar_host_url: 
     opts:
       title: "Sonar Host URL"
       description: |
         The URL of you Sonar server (ie. https://sonar.myserver.com).
       is_expand: true
       is_required: true
-  - sonar_login: "BITRISE_SONAR_LOGIN"
+  - sonar_login: 
     opts:
       title: "Sonar Login"
       description: |
         Sonar login
       is_expand: true
       is_required: true
+  - exclusion_file: "**/*.xml,Pods/**/*,Reports/**/*,**/SourcePackages/checkouts/**/*,**/*.html"
+    opts:
+      title: "Exclusion files"
+      description: |
+        File to exclude of scan
+      is_expand: false
+      is_required: false
+  - verbose_mode_enabled: "off"
+    opts:
+      title: "(opt) Verbose mode for sonar scanner cmd"
+      description: |
+        Enable verbose mode for sonar-scanner cmd
+      is_expand: false
+      is_required: false
+
+
+
+
+
+
+
+
+
+
