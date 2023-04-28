@@ -8,7 +8,9 @@ sonar_project_key="${sonar_project_key}"
 sonar_host_url="${sonar_host_url}"
 sonar_login="${sonar_login}"
 
-ls -l
+THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+ls -l $THIS_SCRIPT_DIR
 
 chmod +X sonnar-ios-step.py 
 
