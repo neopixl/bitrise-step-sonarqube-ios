@@ -1,15 +1,6 @@
 import os
-import sys
 
 print("\n\n\n\n\n* * * * * * * *      STARTING NEOPIXL SONAR SCRIPT       * * * * * * * * * \n\n\n\n\n", flush=True)
-
-TEST1 = os.getenv('xcode_project_path')
-TEST2 = os.getenv('${xcode_project_path}')
-TEST3 = os.getenv('$xcode_project_path')
-
-print("_____________TTTTTTTTTTTTTEST_1111 = %s" % TEST1)
-print("_____________TTTTTTTTTTTTTEST_2222 = %s" % TEST2)
-print("_____________TTTTTTTTTTTTTEST_2222 = %s" % TEST3)
 
 # Install all dependencies
 print("\n\n\n\n\n* * * * * * * *      Install all needed dependencies       * * * * * * * * * \n", flush=True)
@@ -21,12 +12,12 @@ project_root_path = "/Users/vagrant/git"
 # Retrieve all user injected variables
 print("\n\n\n\n\n* * * * * * * *      Retrieve all user injected variables       * * * * * * * * * \n", flush=True)
 
-xcodeproj_path = "%s/%s" % (project_root_path, sys.argv[1])
-xcworkspace_path = "%s/%s" % (project_root_path, sys.argv[2])
-scheme = sys.argv[3]
-sonar_project_name = sys.argv[4]
-sonar_host_url = sys.argv[5]
-sonar_login = sys.argv[6]
+xcodeproj_path = "%s/%s" % (project_root_path, os.getenv('xcode_project_path'))
+xcworkspace_path = "%s/%s" % (project_root_path, os.getenv('xcode_workspace_path'))
+scheme = os.getenv('app_scheme')
+sonar_project_name = os.getenv('sonar_project_key')
+sonar_host_url = os.getenv('sonar_host_url')
+sonar_login = os.getenv('sonar_login')
 
 print("\n\n\n\n\n* * * * * * * *   TEST_TEST_TEST %s %s \n",(xcodeproj_path, scheme))
 
