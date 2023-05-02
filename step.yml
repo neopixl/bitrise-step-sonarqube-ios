@@ -66,21 +66,21 @@ toolkit:
 inputs:
   - xcode_project_path:
     opts:
-      title: "Xcode Project path"
+      title: "Xcode Project path (ie: Tango.xcodeproj)"
       description: |
-        Xcode Project (.xcodeproj) path. ie: Tango.xcodeproj
+        Xcode Project (.xcodeproj) path. (ie: Tango.xcodeproj)
       is_expand: true
       is_required: true
   - xcode_workspace_path:
     opts:
-      title: "(opt) Xcode Workspace path"
+      title: "(opt) Xcode Workspace path (ie: Tango.xcworkspace)"
       description: |
         (only if exist (using cocoapods for exemple)) Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: Tango.xcworkspace)
       is_expand: true
       is_required: false
   - podfile_path:
     opts:
-      title: "(opt) PODFILE PATH "
+      title: "(opt) Podfile path (i.e: XXX/Podfile.lock)"
       description: |
         (only if exist (using cocoapods for exemple)) (i.e: XXX/Podfile.lock)
       is_expand: true
@@ -94,7 +94,7 @@ inputs:
       is_required: true
   - sonar_project_key: 
     opts:
-      title: "Project Name"
+      title: "Sonar Project Name"
       description: |
         The Project Name/Key to use on Sonarqube.
       is_expand: true
