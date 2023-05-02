@@ -86,12 +86,12 @@ print("\n-> Add Dependency-check to sonar options \n", flush=True)
 pod_scan_option = ""
 spm_scan_option = ""
 
-is_SPM_Exist = os.path.exists("%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved") % xcodeproj_path
+is_SPM_Exist = os.path.exists("%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path) 
 print("\n-> SPM (Package.resolved) file exist : %s \n" % is_SPM_Exist, flush=True)
 
 if is_SPM_Exist == "True":
 	spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
-	
+
 if podfile_path != "":
 	pod_scan_option = "--scan %s" % podfile_path
 
