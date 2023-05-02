@@ -70,8 +70,14 @@ sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
 
 # Dependency Check (security hotspot)
 print("\n-> Add Dependency-check to sonar options \n", flush=True)
-dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML --scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % (xcodeproj_path, xcodeproj_path)
-print("\n-> Launch Dependency-check cmd \n", flush=True)
+
+pod_scan_option = ""
+spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
+if xcworkspace_path != "":
+	pod_scan_option = "--scan %s/Podfile.lock" % xcodeproj_path
+
+dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML %s %s" % (xcodeproj_path, spm_scan_option, pod_scan_option)
+print("\n-> Launch Dependency-check cmd %s\n" % dep_check_cmd, flush=True)
 os.system(dep_check_cmd);
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_root_path, "dependency-check-report.html")
