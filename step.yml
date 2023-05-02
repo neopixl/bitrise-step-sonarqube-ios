@@ -78,6 +78,13 @@ inputs:
         (only if exist (using cocoapods for exemple)) Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: Tango.xcworkspace)
       is_expand: true
       is_required: false
+  - podfile_path:
+    opts:
+      title: "(opt) PODFILE PATH "
+      description: |
+        (only if exist (using cocoapods for exemple)) (i.e: XXX/Podfile.lock)
+      is_expand: true
+      is_required: false
   - app_scheme: 
     opts:
       title: "Scheme"

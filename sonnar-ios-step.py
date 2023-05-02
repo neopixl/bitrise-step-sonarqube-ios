@@ -33,7 +33,15 @@ print("""\n\n
 #project configuration
 print("\n-> Add project configuration\n", flush=True)
 xcodeproj_path = "%s/%s" % (project_root_path, os.getenv('xcode_project_path'))
-xcworkspace_path = "%s/%s" % (project_root_path, os.getenv('xcode_workspace_path')) #todo: use it when needed
+
+xcworkspace_path = ""
+if os.getenv('xcode_workspace_path') != "":
+	xcworkspace_path = "%s/%s" % (project_root_path, os.getenv('xcode_workspace_path')) 
+
+podfile_path = ""
+if os.getenv('podfile_path') != "":
+	podfile_path = "%s/%s" % (project_root_path, os.getenv('podfile_path')) 
+
 scheme = os.getenv('app_scheme')
 
 #sonar server configuration
@@ -64,6 +72,10 @@ sonar_scanner_cmd += "-Dsonar.login=%s " % sonar_login
 # Project settings & config
 print("\n-> Add project config to sonar options\n", flush=True)
 sonar_scanner_cmd += "-Dsonar.apple.project=%s " % xcodeproj_path
+
+if xcworkspace_path != "":
+	sonar_scanner_cmd += "-Dsonar.apple.workspace=%s " % xcworkspace_path
+
 sonar_scanner_cmd += "-Dsonar.projectKey=%s " % sonar_project_name
 sonar_scanner_cmd += "-Dsonar.exclusions=%s " % exclusion_file
 sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
@@ -73,8 +85,8 @@ print("\n-> Add Dependency-check to sonar options \n", flush=True)
 
 pod_scan_option = ""
 spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
-if xcworkspace_path != "":
-	pod_scan_option = "--scan %s/Podfile.lock" % xcodeproj_path
+if podfile_path != "":
+	pod_scan_option = "--scan %s" % podfile_path
 
 dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML %s %s" % (xcodeproj_path, spm_scan_option, pod_scan_option)
 print("\n-> Launch Dependency-check cmd %s\n" % dep_check_cmd, flush=True)
