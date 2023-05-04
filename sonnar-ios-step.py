@@ -114,6 +114,10 @@ sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 
 # Periphery (code duplication & dead code)
 print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
+
+periphery_cmd = "periphery scan --project %s --schemes %s --skip-build --targets %s --index-store-path 'derivedData/Index.noindex/DataStore'" % (xcodeproj_path, scheme, target_name)
+os.system(periphery_cmd);
+
 sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
 sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index.noindex/DataStore"
 sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
