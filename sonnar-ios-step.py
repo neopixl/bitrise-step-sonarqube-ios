@@ -106,7 +106,7 @@ sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 
 # Unit test
 if run_unit_test == "on":
-	runUnitTest()
+	runUnitTest(xcodeproj_path, scheme)
 
 
 # Verbose
@@ -134,12 +134,12 @@ print("""\n\n
 
 # Functions
 
-def runUnitTest():
+def runUnitTest(xcodeprojPath, schemeName):
     print("\n-> Run unit test \n", flush=True)
     print("\n-> First, build the project \n", flush=True)
     xcodebuild_cmd = "xcrun xcodebuild "
-	xcodebuild_cmd += "-project %s " % xcodeproj_path
-	xcodebuild_cmd += "-scheme %s " % scheme
+	xcodebuild_cmd += "-project %s " % xcodeprojPath
+	xcodebuild_cmd += "-scheme %s " % schemeName
 	xcodebuild_cmd += "-sdk iphonesimulator "
 	xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
 	#xcodebuild_cmd += "-derivedDataPath './derivedData' "
