@@ -112,13 +112,15 @@ sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % "MyiOSAppTarget"
 
 #Get version
 print("\n-> Get Project Version \n", flush=True)
-projet_version_cmd = "xcodebuild clean -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
+projet_version_cmd = "project_version_number=xcodebuild clean -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
 os.system(projet_version_cmd);
+test = os.getenv('project_version_number')
+print("TESTEST : %s" % test, flush=True))
 
 # Unit test
 if run_unit_test == "on":
     print("\n-> Run unit test \n", flush=True)
-    print("\n-> First, build the project \n", flush=True)
+    print("\n    -> First, build the project \n", flush=True)
     xcodebuild_cmd = "xcrun xcodebuild "
     xcodebuild_cmd += "-project %s " % xcodeproj_path
     xcodebuild_cmd += "-scheme %s " % scheme
