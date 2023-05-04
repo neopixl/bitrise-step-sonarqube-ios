@@ -82,6 +82,13 @@ sonar_scanner_cmd += "-Dsonar.projectKey=%s " % sonar_project_name
 sonar_scanner_cmd += "-Dsonar.exclusions=%s " % exclusion_file
 sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
 
+#Get version
+print("\n-> Get Project Version \n", flush=True)
+projet_version_cmd = "xcodebuild clean -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
+projet_version = os.popen(projet_version_cmd).read()
+print("\n  -> Project Version: %s \n" % projet_version, flush=True)
+sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
+
 # Dependency Check (security hotspot)
 print("\n-> Add Dependency-check to sonar options \n", flush=True)
 
@@ -111,13 +118,6 @@ sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
 sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index.noindex/DataStore"
 sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
-#Get version
-print("\n-> Get Project Version \n", flush=True)
-projet_version_cmd = "xcodebuild clean -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
-projet_version = os.popen(projet_version_cmd).read()
-print("\n  -> Project Version: %s \n" % projet_version, flush=True)
-sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
-
 # Unit test
 if run_unit_test == "on":
     print("\n-> Run unit test \n", flush=True)
@@ -127,7 +127,6 @@ if run_unit_test == "on":
     xcodebuild_cmd += "-scheme %s " % scheme
     xcodebuild_cmd += "-sdk iphonesimulator "
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
-    xcodebuild_cmd += "-derivedDataPath './derivedData' "
     xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
     xcodebuild_cmd += "-quiet "
     xcodebuild_cmd += "clean test"
