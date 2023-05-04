@@ -113,6 +113,13 @@ inputs:
         Sonar login
       is_expand: true
       is_required: true
+  - run_unit_test: "off"
+    opts:
+      title: "Unit Test"
+      description: |
+        default to off. Unit test activated or not. (if on, will build the project)
+      is_expand: true
+      is_required: true
   - exclusion_file: "**/*.xml,Pods/**/*,Reports/**/*,**/SourcePackages/checkouts/**/*,**/*.html"
     opts:
       title: "Exclusion files"

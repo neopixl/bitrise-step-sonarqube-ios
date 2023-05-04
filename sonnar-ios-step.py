@@ -54,6 +54,7 @@ sonar_login = os.getenv('sonar_login')
 print("\n-> Add other configuration\n", flush=True)
 verbose_mode_enabled = os.getenv('verbose_mode_enabled')
 exclusion_file = os.getenv('exclusion_file')
+run_unit_test = os.getenv('run_unit_test')
 
 # Prepare sonar-scanner options
 print("""\n\n
@@ -103,6 +104,11 @@ sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.summarize=true "
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 
+# Unit test
+if run_unit_test == "on":
+	runUnitTest()
+
+
 # Verbose
 print("""\n\n
   _             __                   _       _  
@@ -124,3 +130,37 @@ print("""\n\n
 ███████╗██║ ╚████║██████╔╝
 ╚══════╝╚═╝  ╚═══╝╚═════╝ 
 \n""", flush=True)
+
+
+# Functions
+
+def runUnitTest():
+    print("\n-> Run unit test \n", flush=True)
+    print("\n-> First, build the project \n", flush=True)
+    xcodebuild_cmd = "xcrun xcodebuild "
+	xcodebuild_cmd += "-project %s " % xcodeproj_path
+	xcodebuild_cmd += "-scheme %s " % scheme
+	xcodebuild_cmd += "-sdk iphonesimulator "
+	xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
+	#xcodebuild_cmd += "-derivedDataPath './derivedData' "
+	xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
+	xcodebuild_cmd += "-quiet "
+	xcodebuild_cmd += "clean test"
+	print("xcodebuild_cmd === %s" % xcodebuild_cmd)
+	os.system(xcodebuild_cmd);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
