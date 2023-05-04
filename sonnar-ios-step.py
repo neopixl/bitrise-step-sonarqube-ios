@@ -114,7 +114,7 @@ sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % "MyiOSAppTarget"
 print("\n-> Get Project Version \n", flush=True)
 projet_version_cmd = "xcodebuild clean -showBuildSetting"# | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
 projet_version = os.popen(projet_version_cmd).read()
-print("TESTEST : %s, % projet_version", flush=True)
+print("TESTEST : %s" % projet_version, flush=True)
 sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
 
 
