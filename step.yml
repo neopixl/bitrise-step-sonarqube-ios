@@ -55,6 +55,7 @@ deps:
     - name: sonar-scanner
     - name: dependency-check
     - name: swiftlint
+    - name: peripheryapp/periphery/periphery
   apt_get:
     - name: git
     - name: wget
