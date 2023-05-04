@@ -55,6 +55,7 @@ print("\n-> Add other configuration\n", flush=True)
 verbose_mode_enabled = os.getenv('verbose_mode_enabled')
 exclusion_file = os.getenv('exclusion_file')
 run_unit_test = os.getenv('run_unit_test')
+target_name = os.getenv('target_name')
 
 # Prepare sonar-scanner options
 print("""\n\n
@@ -107,17 +108,15 @@ sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 # Periphery (code duplication & dead code)
 print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
 sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
-sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index/DataStore"
-sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % "MyiOSAppTarget"
+sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index.noindex/DataStore"
+sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
 #Get version
 print("\n-> Get Project Version \n", flush=True)
-projet_version_cmd = "xcodebuild clean -showBuildSetting"# | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
+projet_version_cmd = "xcodebuild clean -showBuildSetting | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='"
 projet_version = os.popen(projet_version_cmd).read()
-print("TESTEST : %s" % projet_version, flush=True)
+print("\n  -> Project Version: %s \n" % projet_version, flush=True)
 sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
-
-
 
 # Unit test
 if run_unit_test == "on":

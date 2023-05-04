@@ -93,6 +93,13 @@ inputs:
         The name of your application scheme in Xcode
       is_expand: true
       is_required: true
+  - target_name: 
+    opts:
+      title: "Target Name"
+      description: |
+        The name of the Target in Xcode
+      is_expand: true
+      is_required: true
   - sonar_project_key: 
     opts:
       title: "Sonar Project Name"
