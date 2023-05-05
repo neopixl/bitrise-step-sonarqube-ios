@@ -116,7 +116,7 @@ sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
 
 # TODO: create index store path folter
-periphery_cmd = "periphery scan --project %s --schemes %s --skip-build --targets %s" % (xcodeproj_path, scheme, target_name)
+periphery_cmd = "periphery scan --project %s --schemes %s --targets %s" % (xcodeproj_path, scheme, target_name)
 os.system(periphery_cmd);
 
 sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
