@@ -115,11 +115,11 @@ spm_scan_option = ""
 is_SPM_Exist = os.path.exists("%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path) 
 print("\n-> SPM (Package.resolved) file exist : %s \n" % is_SPM_Exist, flush=True)
 
-if is_SPM_Exist == "True":
-	spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
+if is_SPM_Exist == True:
+    spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
 
 if podfile_path != "":
-	pod_scan_option = "--scan %s" % podfile_path
+    pod_scan_option = "--scan %s" % podfile_path
 
 print("spm_scan_option:=:%s" % spm_scan_option, flush=True)
 
