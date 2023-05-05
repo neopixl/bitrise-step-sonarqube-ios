@@ -112,17 +112,6 @@ sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.summarize=true "
 sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 
-# Periphery (code duplication & dead code)
-print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
-
-# TODO: create index store path folter
-periphery_cmd = "periphery scan --project %s --schemes %s --targets %s" % (xcodeproj_path, scheme, target_name)
-os.system(periphery_cmd);
-
-sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
-sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index.noindex/DataStore"
-sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
-
 # Unit test
 if run_unit_test == "on":
     print("\n-> Run unit test \n", flush=True)
@@ -133,11 +122,23 @@ if run_unit_test == "on":
     xcodebuild_cmd += "-sdk iphonesimulator "
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
     xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
+    xcodebuild_cmd += "-derivedDataPath ./derivedData "
     xcodebuild_cmd += "-quiet "
     xcodebuild_cmd += "clean test"
     print("xcodebuild_cmd === %s" % xcodebuild_cmd)
     #sonar.apple.resultBundlePath=custom/path/to/file.xcresult # Defaults to build/result.xcresult
     os.system(xcodebuild_cmd);
+
+# Periphery (code duplication & dead code)
+print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
+
+# TODO: create index store path folter
+#periphery_cmd = "periphery scan --project %s --schemes %s --targets %s" % (xcodeproj_path, scheme, target_name)
+#os.system(periphery_cmd);
+
+sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
+sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index.noindex/DataStore"
+sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
 # Verbose
 print("""\n\n
