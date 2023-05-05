@@ -121,6 +121,8 @@ if is_SPM_Exist == "True":
 if podfile_path != "":
 	pod_scan_option = "--scan %s" % podfile_path
 
+print("spm_scan_option:=:%s" % spm_scan_option, flush=True)
+
 dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML %s %s" % (xcodeproj_path, spm_scan_option, pod_scan_option)
 print("\n-> Launch Dependency-check (to generate report file) cmd %s\n" % dep_check_cmd, flush=True)
 os.system(dep_check_cmd);
@@ -137,7 +139,7 @@ print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
 #os.system(periphery_cmd);
 
 sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
-sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "../derivedData/Index.noindex/DataStore"
+sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "'../derivedData/Index.noindex/DataStore'"
 sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
 # Verbose
