@@ -57,6 +57,28 @@ exclusion_file = os.getenv('exclusion_file')
 run_unit_test = os.getenv('run_unit_test')
 target_name = os.getenv('target_name')
 
+# Build project
+print("""\n\n
+  _                 _                     
+ |_)     o |  _|   |_) ._ _  o  _   _ _|_ 
+ |_) |_| | | (_|   |   | (_) | (/_ (_  |_ 
+                            _|
+\n""", flush=True)
+
+ print("\n    -> First, build the project \n", flush=True)
+ xcodebuild_cmd = "xcrun xcodebuild "
+ xcodebuild_cmd += "-project %s " % xcodeproj_path
+ xcodebuild_cmd += "-scheme %s " % scheme
+ xcodebuild_cmd += "-sdk iphonesimulator "
+ xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
+ xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
+ xcodebuild_cmd += "-derivedDataPath '../derivedData' "
+ xcodebuild_cmd += "-quiet "
+ #xcodebuild_cmd += "clean test"
+ print("xcodebuild_cmd === %s" % xcodebuild_cmd)
+ os.system(xcodebuild_cmd);
+
+
 # Prepare sonar-scanner options
 print("""\n\n
   __                   _                      
@@ -92,19 +114,7 @@ sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
 # Unit test
 if run_unit_test == "on":
     print("\n-> Run unit test \n", flush=True)
-    print("\n    -> First, build the project \n", flush=True)
-    xcodebuild_cmd = "xcrun xcodebuild "
-    xcodebuild_cmd += "-project %s " % xcodeproj_path
-    xcodebuild_cmd += "-scheme %s " % scheme
-    xcodebuild_cmd += "-sdk iphonesimulator "
-    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
-    xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
-    xcodebuild_cmd += "-derivedDataPath ../derivedData "
-    xcodebuild_cmd += "-quiet "
-    #xcodebuild_cmd += "clean test"
-    print("xcodebuild_cmd === %s" % xcodebuild_cmd)
-    #sonar.apple.resultBundlePath=custom/path/to/file.xcresult # Defaults to build/result.xcresult
-    os.system(xcodebuild_cmd);
+    sonar.apple.resultBundlePath=custom/path/to/file.xcresult # Defaults to build/result.xcresult
 
 # Dependency Check (security hotspot)
 print("\n-> Add Dependency-check to sonar options \n", flush=True)
@@ -120,8 +130,6 @@ if is_SPM_Exist == True:
 
 if podfile_path != "":
     pod_scan_option = "--scan %s" % podfile_path
-
-print("spm_scan_option:=:%s" % spm_scan_option, flush=True)
 
 dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML %s %s" % (xcodeproj_path, spm_scan_option, pod_scan_option)
 print("\n-> Launch Dependency-check (to generate report file) cmd %s\n" % dep_check_cmd, flush=True)
