@@ -89,29 +89,6 @@ projet_version = os.popen(projet_version_cmd).read()
 print("\n  -> Project Version: %s \n" % projet_version, flush=True)
 sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
 
-# Dependency Check (security hotspot)
-print("\n-> Add Dependency-check to sonar options \n", flush=True)
-
-pod_scan_option = ""
-spm_scan_option = ""
-
-is_SPM_Exist = os.path.exists("%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path) 
-print("\n-> SPM (Package.resolved) file exist : %s \n" % is_SPM_Exist, flush=True)
-
-if is_SPM_Exist == "True":
-	spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
-
-if podfile_path != "":
-	pod_scan_option = "--scan %s" % podfile_path
-
-dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML %s %s" % (xcodeproj_path, spm_scan_option, pod_scan_option)
-print("\n-> Launch Dependency-check cmd %s\n" % dep_check_cmd, flush=True)
-os.system(dep_check_cmd);
-sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
-sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_root_path, "dependency-check-report.html")
-sonar_scanner_cmd += "-Dsonar.dependencyCheck.summarize=true "
-sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
-
 # Unit test
 if run_unit_test == "on":
     print("\n-> Run unit test \n", flush=True)
@@ -128,6 +105,29 @@ if run_unit_test == "on":
     print("xcodebuild_cmd === %s" % xcodebuild_cmd)
     #sonar.apple.resultBundlePath=custom/path/to/file.xcresult # Defaults to build/result.xcresult
     os.system(xcodebuild_cmd);
+
+# Dependency Check (security hotspot)
+print("\n-> Add Dependency-check to sonar options \n", flush=True)
+
+pod_scan_option = ""
+spm_scan_option = ""
+
+is_SPM_Exist = os.path.exists("%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path) 
+print("\n-> SPM (Package.resolved) file exist : %s \n" % is_SPM_Exist, flush=True)
+
+if is_SPM_Exist == "True":
+	spm_scan_option = "--scan %s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
+
+if podfile_path != "":
+	pod_scan_option = "--scan %s" % podfile_path
+
+dep_check_cmd = "dependency-check --enableExperimental --project %s --format JSON --format HTML %s %s" % (xcodeproj_path, spm_scan_option, pod_scan_option)
+print("\n-> Launch Dependency-check (to generate report file) cmd %s\n" % dep_check_cmd, flush=True)
+os.system(dep_check_cmd);
+sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
+sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_root_path, "dependency-check-report.html")
+sonar_scanner_cmd += "-Dsonar.dependencyCheck.summarize=true "
+sonar_scanner_cmd += "-Dsonar.dependencyCheck.securityHotspot=true "
 
 # Periphery (code duplication & dead code)
 print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
