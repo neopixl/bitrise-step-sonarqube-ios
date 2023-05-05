@@ -122,7 +122,7 @@ if run_unit_test == "on":
     xcodebuild_cmd += "-sdk iphonesimulator "
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
     xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
-    xcodebuild_cmd += "-derivedDataPath ./derivedData "
+    xcodebuild_cmd += "-derivedDataPath ../derivedData "
     xcodebuild_cmd += "-quiet "
     xcodebuild_cmd += "clean test"
     print("xcodebuild_cmd === %s" % xcodebuild_cmd)
@@ -137,7 +137,7 @@ print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
 #os.system(periphery_cmd);
 
 sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
-sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "derivedData/Index.noindex/DataStore"
+sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "../derivedData/Index.noindex/DataStore"
 sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
 # Verbose
