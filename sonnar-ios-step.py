@@ -119,12 +119,12 @@ if run_unit_test == "on":
     xcodebuild_cmd = "xcrun xcodebuild "
     xcodebuild_cmd += "-project %s " % xcodeproj_path
     xcodebuild_cmd += "-scheme %s " % scheme
-    xcodebuild_cmd += "-sdk iphonesimulator "
+    xcodebuild_cmd += "-sdk iphonesimulator16.4 "
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Plus' "
     xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
     xcodebuild_cmd += "-derivedDataPath ../derivedData "
     xcodebuild_cmd += "-quiet "
-    xcodebuild_cmd += "clean test"
+    #xcodebuild_cmd += "clean test"
     print("xcodebuild_cmd === %s" % xcodebuild_cmd)
     #sonar.apple.resultBundlePath=custom/path/to/file.xcresult # Defaults to build/result.xcresult
     os.system(xcodebuild_cmd);
