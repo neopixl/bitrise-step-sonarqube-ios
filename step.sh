@@ -262,12 +262,15 @@ rm -rf sonar-reports
 mkdir sonar-reports
 
 # Extracting project information needed later
-echo -n 'Extracting Xcode project information'
+echo 'Extracting Xcode project information'
+echo "Bitrise build log path: $BITRISE_XCODEBUILD_BUILD_LOG_PATH"
 
 if [[ "$BITRISE_XCODEBUILD_BUILD_LOG_PATH" != "" ]]; then
+    echo 'Using previous Bitrise build log'
     #oclint-xcodebuild # Transform the xcodebuild.log file into a compile_command.json file
     cat "$BITRISE_XCODEBUILD_BUILD_LOG_PATH" | $XCPRETTY_CMD -r json-compilation-database -o compile_commands.json
 else
+    echo 'Building project to get build log'
 	if [[ "$workspaceFile" != "" ]] ; then
     	buildCmdPrefix="-workspace $workspaceFile"
 	else
