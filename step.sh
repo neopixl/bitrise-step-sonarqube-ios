@@ -187,8 +187,6 @@ vflag="on"
 nflag=""
 unittests="${run_tests}"
 swiftlint="${run_swiftlint}"
-tailor="on"
-lizard="on"
 oclint="${run_oclint}"
 dependencycheck="${run_dependency_check}"
 sonarscanner="on"
@@ -222,9 +220,6 @@ binaryName="${tests_binary_name}"
 
 # Read destination simulator
 destinationSimulator="${tests_simulator}"
-
-# Read tailor configuration
-tailorConfiguration=''
 
 # Check for mandatory parameters
 if [ "$unittests" = "on" ]; then
