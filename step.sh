@@ -268,18 +268,24 @@ mkdir sonar-reports
 
 # Extracting project information needed later
 echo -n 'Extracting Xcode project information'
-if [[ "$workspaceFile" != "" ]] ; then
-    buildCmdPrefix="-workspace $workspaceFile"
+
+if [[ "$BITRISE_XCODEBUILD_BUILD_LOG_PATH" != "" ]]; then
+    #oclint-xcodebuild # Transform the xcodebuild.log file into a compile_command.json file
+    cat "$BITRISE_XCODEBUILD_BUILD_LOG_PATH" | $XCPRETTY_CMD -r json-compilation-database -o compile_commands.json
 else
-    buildCmdPrefix="-project $projectFile"
+	if [[ "$workspaceFile" != "" ]] ; then
+    	buildCmdPrefix="-workspace $workspaceFile"
+	else
+    	buildCmdPrefix="-project $projectFile"
+	fi
+	buildCmd=($XCODEBUILD_CMD -skipPackagePluginValidation clean build $buildCmdPrefix -scheme "$appScheme")
+	if [[ ! -z "$destinationSimulator" ]]; then
+	    buildCmd+=(-destination "$destinationSimulator" -destination-timeout 360 COMPILER_INDEX_STORE_ENABLE=NO)
+	fi
+	runCommand  xcodebuild.log "${buildCmd[@]}"
+	#oclint-xcodebuild # Transform the xcodebuild.log file into a compile_command.json file
+	cat xcodebuild.log | $XCPRETTY_CMD -r json-compilation-database -o compile_commands.json
 fi
-buildCmd=($XCODEBUILD_CMD -skipPackagePluginValidation clean build $buildCmdPrefix -scheme "$appScheme")
-if [[ ! -z "$destinationSimulator" ]]; then
-    buildCmd+=(-destination "$destinationSimulator" -destination-timeout 360 COMPILER_INDEX_STORE_ENABLE=NO)
-fi
-runCommand  xcodebuild.log "${buildCmd[@]}"
-#oclint-xcodebuild # Transform the xcodebuild.log file into a compile_command.json file
-cat xcodebuild.log | $XCPRETTY_CMD -r json-compilation-database -o compile_commands.json
 
 # Extract version
 projet_version=`$XCODEBUILD_CMD $buildCmdPrefix -showBuildSettings | grep MARKETING_VERSION | tr -d 'MARKETING_VERSION ='`
