@@ -1,4 +1,5 @@
 import os
+import json
 
 print("""\n\n\n
 ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗██╗  ██╗██╗         ███████╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ███████╗████████╗███████╗██████╗ 
@@ -160,6 +161,28 @@ if verbose_mode_enabled == 'on':
 
 print("\n-> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
 os.system(sonar_scanner_cmd);
+
+# Dependency Track (third party libraries)
+print("""\n\n
+  _____                            _                         _______             _    
+ |  __ \                          | |                       |__   __|           | |   
+ | |  | | ___ _ __   ___ _ __   __| | ___ _ __   ___ _   _     | |_ __ __ _  ___| | __
+ | |  | |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \ / __| | | |    | | '__/ _` |/ __| |/ /
+ | |__| |  __/ |_) |  __/ | | | (_| |  __/ | | | (__| |_| |    | | | | (_| | (__|   < 
+ |_____/ \___| .__/ \___|_| |_|\__,_|\___|_| |_|\___|\__, |    |_|_|  \__,_|\___|_|\_\
+             | |                                      __/ |                           
+             |_|                                     |___/                            
+
+ \n""", flush=True)
+
+# Retrieve Package.resolved and transform it to bom.json
+package_path = "%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
+
+package_json = open(package_path)
+data = json.load(package_json)
+for i in data['pins']:
+    print(i)
+
 
 
 print("""\n\n
