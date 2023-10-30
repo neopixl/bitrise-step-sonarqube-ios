@@ -182,7 +182,25 @@ package_json = open(package_path)
 data = json.load(package_json)
 for i in data['pins']:
     print(i)
+
+    package_dict = {
+    "identity": i['identity'],
+    "url": i['location'],
+    "revision": i['state']['revision'],
+    "version": i['state']['version'],
+    "location": i['location']
+    }
+    print(package_dict)
+
 package_json.close()
+
+dictionary = {
+    "bomFormat": "CycloneDX",
+    "version": 1,
+    "specVersion": "1.4",
+    "phonenumber": "9976770500",
+    "components": ""
+}
 
 
 
