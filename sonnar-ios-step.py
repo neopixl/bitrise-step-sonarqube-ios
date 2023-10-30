@@ -182,6 +182,7 @@ package_json = open(package_path)
 data = json.load(package_json)
 for i in data['pins']:
     print(i)
+package_json.close()
 
 
 
