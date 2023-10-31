@@ -208,8 +208,8 @@ for i in data['pins']:
     externalReferences = [{"url": i['location'], "type": "vcs"}]
 
     package_dict = {
-    "type": "library"
-    "name": i['identity']
+    "type": "library",
+    "name": i['identity'],
     "version": i['state']['version'],
     "purl": purl,
     "cpe": cpe_id,
