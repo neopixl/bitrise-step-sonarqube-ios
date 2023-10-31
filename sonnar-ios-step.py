@@ -195,8 +195,9 @@ for i in data['pins']:
     dcheck_report_json = open("dependency-check-report.json") 
     dcheck_report_data = json.load(dcheck_report_json)
     print(dcheck_report_data)
-        for f in dcheck_report_data['dependencies']:
-            print(f)
+    
+    for f in dcheck_report_data['dependencies']:
+        print(f)
         
 
 
