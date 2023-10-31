@@ -182,7 +182,7 @@ package_json = open(package_path)
 data = json.load(package_json)
 for i in data['pins']:
     print(i)
-
+    print("\n---lol----\n")
     package_dict = {
     "identity": i['identity'],
     "url": i['location'],
