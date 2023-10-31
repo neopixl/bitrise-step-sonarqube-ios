@@ -178,30 +178,55 @@ print("""\n\n
 # Retrieve Package.resolved and transform it to bom.json
 package_path = "%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
 
+print("read package at path : %s" % package_path, flush=True)
+
+components = []
 package_json = open(package_path)
 data = json.load(package_json)
 for i in data['pins']:
-    print(i)
-    print("\n---lol----\n")
-    package_dict = {
-    "identity": i['identity'],
-    "url": i['location'],
-    "revision": i['state']['revision'],
-    "version": i['state']['version'],
-    "location": i['location']
-    }
-    print(package_dict)
+
+    #generate purl
+    purl = i['identity']
+    purl += "@"
+    purl += i['state']['version']
+    print("\n-> purl = %s\n" % purl, flush=True)
+
+    #generate CPE (vulnerabilities) thanks to DCheck report..."
+    dcheck_report_json = open("dependency-check-report.json") 
+    dcheck_report_data = json.load(dcheck_report_json)
+        for f in dcheck_report_data['dependencies']:
+            print(f)
+        
+
+
+    #package_dict = {
+    #"type": "library"
+    #"name": i['identity']
+    #"version": i['state']['version'],
+    #"purl": purl,
+    #"cpe"
+
+
+
+
+
+    #"url": i['location'],
+    #"location": i['location']
+
+
+    #components.append(package_dict)
 
 package_json.close()
 
-dictionary = {
+sbom_dict = {
     "bomFormat": "CycloneDX",
     "version": 1,
-    "specVersion": "1.4",
-    "phonenumber": "9976770500",
-    "components": ""
+    "specVersion": "1.5",
+    "components": components
 }
 
+
+print(sbom_dict)
 
 
 print("""\n\n
