@@ -194,10 +194,11 @@ for i in data['pins']:
     #generate CPE (vulnerabilities) thanks to DCheck report..."
     dcheck_report_json = open("dependency-check-report.json") 
     dcheck_report_data = json.load(dcheck_report_json)
-    print(dcheck_report_data)
-    
+
     for f in dcheck_report_data['dependencies']:
-        print(f)
+        filenameArray = f['fileName'].split(":")
+        if filenameArray[0] == i['identity']:
+            print(filenameArray[0])
         
 
 
