@@ -200,6 +200,7 @@ for i in data['pins']:
     for f in dcheck_report_data['dependencies']:
         filenameArray = f['fileName'].split(":")
         if filenameArray[0] == i['identity']:
+            print(f['vulnerabilityIds'])
             cpe_id = f['vulnerabilityIds'][0]['id']
 
     print("\n-> cpe = %s\n" % cpe_id, flush=True)
