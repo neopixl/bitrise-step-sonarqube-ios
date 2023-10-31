@@ -195,27 +195,28 @@ for i in data['pins']:
     dcheck_report_json = open("dependency-check-report.json") 
     dcheck_report_data = json.load(dcheck_report_json)
 
+    cpe_id = ""
+
     for f in dcheck_report_data['dependencies']:
         filenameArray = f['fileName'].split(":")
         if filenameArray[0] == i['identity']:
-            print(filenameArray[0])
-        
+            cpe_id = f['vulnerabilityIds'][0]['id']
 
+    print("\n-> cpe = %s\n" % cpe_id, flush=True)
+    
 
-    #package_dict = {
-    #"type": "library"
-    #"name": i['identity']
-    #"version": i['state']['version'],
-    #"purl": purl,
-    #"cpe"
+    externalReferences = [{"url": i['location'], "type": "vcs"}]
 
+    package_dict = {
+    "type": "library"
+    "name": i['identity']
+    "version": i['state']['version'],
+    "purl": purl,
+    "cpe": cpe_id,
+    "externalReferences": externalReferences
+    }
 
-
-
-
-    #"url": i['location'],
-    #"location": i['location']
-
+    print(package_dict)
 
     #components.append(package_dict)
 
