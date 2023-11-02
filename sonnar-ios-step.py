@@ -1,6 +1,5 @@
 import os
 import json
-import requests
 
 print("""\n\n\n
 ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗██╗  ██╗██╗         ███████╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ███████╗████████╗███████╗██████╗ 
@@ -248,7 +247,7 @@ if run_dtrack == "on":
         'projectName': (None, os.getenv('project_key', '')),
         'projectVersion': (None, os.getenv('projet_version', ''))
     }
-    response = requests.post('$dtrackBaseUrl/api/v1/bom', json=sbom_dict, headers=headers, files=files)
+    #response = requests.post('$dtrackBaseUrl/api/v1/bom', json=sbom_dict, headers=headers, files=files)
 
 print("""\n\n
 ███████╗███╗   ██╗██████╗ 
