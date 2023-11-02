@@ -139,7 +139,7 @@ inputs:
     opts:
       title: "Periphery (code duplication & dead code)"
       description: |
-        default to on. run dependency-Track
+        default to on. run Periphery
       is_expand: true
       is_required: true
   - run_unit_test: "off"
