@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 
 print("""\n\n\n
 ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗██╗  ██╗██╗         ███████╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ███████╗████████╗███████╗██████╗ 
@@ -162,6 +163,7 @@ if verbose_mode_enabled == 'on':
 print("\n-> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
 os.system(sonar_scanner_cmd);
 
+"""
 # Dependency Track (third party libraries)
 print("""\n\n
   _____                            _                         _______             _    
@@ -189,7 +191,6 @@ for i in data['pins']:
     purl = i['identity']
     purl += "@"
     purl += i['state']['version']
-    print("\n-> purl = %s\n" % purl, flush=True)
 
     #generate CPE (vulnerabilities) thanks to DCheck report..."
     dcheck_report_json = open("dependency-check-report.json") 
@@ -202,8 +203,6 @@ for i in data['pins']:
         if filenameArray[0] == i['identity']:
             if not (f.get('vulnerabilityIds') is None):
                 cpe_id = f['vulnerabilityIds'][0]['id']
-
-    print("\n-> cpe = %s\n" % cpe_id, flush=True)
     
     externalReferences = [{"url": i['location'], "type": "vcs"}]
 
@@ -227,7 +226,22 @@ sbom_dict = {
     "components": components
 }
 
-print("\n-> sbom = %s\n" % sbom_dict, flush=True)
+print("\n-> generated sbom = %s\n" % sbom_dict, flush=True)
+
+# send sbom to dtrack
+headers = {
+    'Content-Type': 'multipart/form-data',
+    'X-Api-Key': 'dtrackAPIKey'
+}
+files = {
+    'autoCreate': (None, 'true'),
+    'projectName': (None, os.getenv('project_key', '')),
+    'projectVersion': (None, os.getenv('projet_version', ''))
+}
+response = requests.post('$dtrackBaseUrl/api/v1/bom', json=sbom_dict, headers=headers, files=files)
+"""
+
+print(response)
 
 print("""\n\n
 ███████╗███╗   ██╗██████╗ 
