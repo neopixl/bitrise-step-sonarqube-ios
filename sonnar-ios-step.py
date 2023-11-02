@@ -74,7 +74,6 @@ print("\n    -> First, build the project \n", flush=True)
 xcodebuild_cmd = "xcrun xcodebuild "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
-xcodebuild_cmd += "-target %s " % target_name
 xcodebuild_cmd += "-sdk iphonesimulator "
 xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=latest' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
