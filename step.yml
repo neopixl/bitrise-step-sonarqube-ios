@@ -121,6 +121,27 @@ inputs:
         Sonar login
       is_expand: true
       is_required: true
+  - run_dcheck: "on"
+    opts:
+      title: "Dependency-check"
+      description: |
+        default to on. run dependency-check
+      is_expand: true
+      is_required: true
+  - run_dtrack: "off"
+    opts:
+      title: "Dependency-Track"
+      description: |
+        default to off. run dependency-Track
+      is_expand: true
+      is_required: true
+  - run_periphery: "on"
+    opts:
+      title: "Periphery (code duplication & dead code)"
+      description: |
+        default to on. run dependency-Track
+      is_expand: true
+      is_required: true
   - run_unit_test: "off"
     opts:
       title: "Unit Test"
@@ -128,6 +149,13 @@ inputs:
         default to off. Unit test activated or not. (if on, will build the project)
       is_expand: true
       is_required: true
+  - extra_sonar_param: ""
+    opts:
+      title: "Extra sonar scanner parameters"
+      description: |
+        You can add some extra parameters to sonar-scanner cmd
+      is_expand: false
+      is_required: false
   - exclusion_file: "**/*.xml,Pods/**/*,Reports/**/*,**/SourcePackages/checkouts/**/*,**/*.html"
     opts:
       title: "Exclusion files"
@@ -146,6 +174,10 @@ inputs:
 
 
 
+
+run_dcheck = os.getenv('')
+run_dtrack = os.getenv('')
+run_periphery = os.getenv('run_periphery')
 
 
 
