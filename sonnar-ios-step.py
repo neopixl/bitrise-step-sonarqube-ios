@@ -201,7 +201,6 @@ for i in data['pins']:
         filenameArray = f['fileName'].split(":")
         if filenameArray[0] == i['identity']:
             if not (f.get('vulnerabilityIds') is None):
-                print(f['vulnerabilityIds'])
                 cpe_id = f['vulnerabilityIds'][0]['id']
 
     print("\n-> cpe = %s\n" % cpe_id, flush=True)
@@ -217,9 +216,7 @@ for i in data['pins']:
     "externalReferences": externalReferences
     }
 
-    print(package_dict)
-
-    #components.append(package_dict)
+    components.append(package_dict)
 
 package_json.close()
 
@@ -230,9 +227,7 @@ sbom_dict = {
     "components": components
 }
 
-
-print(sbom_dict)
-
+print("\n-> sbom = %s\n" % sbom_dict, flush=True)
 
 print("""\n\n
 ███████╗███╗   ██╗██████╗ 
