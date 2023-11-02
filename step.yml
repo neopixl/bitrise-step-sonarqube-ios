@@ -171,16 +171,3 @@ inputs:
       is_expand: false
       is_required: false
 
-
-
-
-
-run_dcheck = os.getenv('')
-run_dtrack = os.getenv('')
-run_periphery = os.getenv('run_periphery')
-
-
-
-
-
-
