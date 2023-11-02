@@ -161,7 +161,7 @@ if run_periphery == "on":
 if verbose_mode_enabled == 'on':
     sonar_scanner_cmd += "-X -Dsonar.verbose=true "
 
-# Extra sonar scanner parameters
+# Extra sonar scanner parameters (if any)
 sonar_scanner_cmd += "%s" % extra_sonar_param
 
 print("""\n\n
@@ -174,19 +174,19 @@ print("\n-> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
 os.system(sonar_scanner_cmd);
 
 # Dependency Track (third party libraries)
-print("""\n\n
-  _____                            _                         _______             _    
- |  __ \                          | |                       |__   __|           | |   
- | |  | | ___ _ __   ___ _ __   __| | ___ _ __   ___ _   _     | |_ __ __ _  ___| | __
- | |  | |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \ / __| | | |    | | '__/ _` |/ __| |/ /
- | |__| |  __/ |_) |  __/ | | | (_| |  __/ | | | (__| |_| |    | | | | (_| | (__|   < 
- |_____/ \___| .__/ \___|_| |_|\__,_|\___|_| |_|\___|\__, |    |_|_|  \__,_|\___|_|\_\
-             | |                                      __/ |                           
-             |_|                                     |___/                            
+if run_dtrack == "on":
+    print("""\n\n
+      _____                            _                         _______             _    
+     |  __ \                          | |                       |__   __|           | |   
+     | |  | | ___ _ __   ___ _ __   __| | ___ _ __   ___ _   _     | |_ __ __ _  ___| | __
+     | |  | |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \ / __| | | |    | | '__/ _` |/ __| |/ /
+     | |__| |  __/ |_) |  __/ | | | (_| |  __/ | | | (__| |_| |    | | | | (_| | (__|   < 
+     |_____/ \___| .__/ \___|_| |_|\__,_|\___|_| |_|\___|\__, |    |_|_|  \__,_|\___|_|\_\
+                 | |                                      __/ |                           
+                 |_|                                     |___/                            
 
- \n""", flush=True)
+     \n""", flush=True)
 
-if run_dtrack == "on"
     # Retrieve Package.resolved and transform it to bom.json
     package_path = "%s/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" % xcodeproj_path
 

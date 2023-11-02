@@ -52,10 +52,10 @@ run_if: ""
 deps:
   brew:
     - name: python3
-    - name: sonar-scanner
     - name: dependency-check
-    - name: swiftlint
     - name: peripheryapp/periphery/periphery
+    - name: sonar-scanner
+    - name: swiftlint
   apt_get:
     - name: git
     - name: wget
@@ -170,4 +170,3 @@ inputs:
         Enable verbose mode for sonar-scanner cmd
       is_expand: false
       is_required: false
-
