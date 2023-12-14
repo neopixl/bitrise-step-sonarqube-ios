@@ -213,6 +213,8 @@ fi
 
 # Unit surefire and coverage
 if [ "$unittests" = "on" ]; then
+	brew tap a7ex/homebrew-formulae
+	brew install xcresultparser
 	runCommand sonar-reports/sonarqube-generic-coverage.xml xcresultparser -o xml -c "${BITRISE_XCRESULT_PATH}"
 fi
 
