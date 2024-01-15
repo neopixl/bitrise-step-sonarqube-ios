@@ -72,7 +72,7 @@ print("""\n\n
 \n""", flush=True)
 
 print("\n    -> First, build the project \n", flush=True)
-xcodebuild_cmd = "xcrun xcodebuild "
+xcodebuild_cmd = "xcrun xcodebuild -exportArchive "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 xcodebuild_cmd += "-sdk iphonesimulator "
