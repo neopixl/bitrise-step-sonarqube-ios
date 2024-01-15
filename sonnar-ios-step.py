@@ -76,11 +76,11 @@ xcodebuild_cmd = "xcrun xcodebuild "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
-#xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest' "
+xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 #xcodebuild_cmd += "-quiet "
-xcodebuild_cmd += "clean test"
+#xcodebuild_cmd += "clean test"
 print("xcodebuild_cmd === %s" % xcodebuild_cmd)
 os.system(xcodebuild_cmd);
 
