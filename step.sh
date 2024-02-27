@@ -294,7 +294,7 @@ echo "Switching to Pull Request mode"
   sonarScannerOptions+=" -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
 fi
 
-if [ -z $extras ]; then 
+if [ -z "$extras" ]; then 
     echo -n 'No extra parameter provided'
 else 
     echo -n "Adding extra parameters: $extras"
