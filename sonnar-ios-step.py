@@ -21,7 +21,7 @@ print("""\n
 
 #os.system("pip3 install mobsfscan==0.1.2 --quiet");
 #os.system("pip3 install mobsfscan==0.2.0 --quiet");
-os.system("pip3 install mobsfscan");
+os.system("pip3 install mobsfscan --break-system-packages");
 os.system("mobsfscan --v");
 
 print("\n-> MobSF installed\n", flush=True)
