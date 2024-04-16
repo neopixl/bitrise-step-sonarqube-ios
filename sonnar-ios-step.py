@@ -24,8 +24,6 @@ os.system("mobsfscan --v");
 
 print("\n----> MobSF installed\n", flush=True)
 
-os.system("brew install swiftlint")
-
 # Retrieve all user injected variables
 print("""\n\n
  ___                                                          
@@ -35,7 +33,7 @@ print("""\n\n
  \n""", flush=True)
 
 #project configuration
-print("\n-> Add project configuration\n", flush=True)
+print("\n----> Add project configuration\n", flush=True)
 xcodeproj_path = "%s/%s" % (project_root_path, os.getenv('xcode_project_path'))
 
 xcworkspace_path = ""
@@ -48,15 +46,25 @@ if os.getenv('podfile_path') != "":
 
 scheme = os.getenv('app_scheme')
 
+print("\n xcodeproj_path === %s" % xcodeproj_path)
+print("\n xcworkspace_path === %s" % xcworkspace_path)
+print("\n podfile_path === %s" % podfile_path)
+print("\n scheme === %s" % scheme)
+
 #sonar server configuration
-print("\n-> Add Sonar server configuration\n", flush=True)
+print("\n----> Add Sonar server configuration\n", flush=True)
 sonar_project_name = os.getenv('sonar_project_key')
 sonar_host_url = os.getenv('sonar_host_url')
 sonar_login = os.getenv('sonar_login')
 sonar_branch = os.getenv('BITRISE_GIT_BRANCH')
 
+print("\n sonar_project_name === %s" % sonar_project_name)
+print("\n sonar_host_url === %s" % sonar_host_url)
+print("\n sonar_login === %s" % sonar_login)
+print("\n sonar_branch === %s" % sonar_branch)
+
 #other configuration
-print("\n-> Add other configuration\n", flush=True)
+print("\n----> Add other configuration\n", flush=True)
 verbose_mode_enabled = os.getenv('verbose_mode_enabled')
 exclusion_file = os.getenv('exclusion_file')
 run_unit_test = os.getenv('run_unit_test')
@@ -67,6 +75,16 @@ target_name = os.getenv('target_name')
 extra_sonar_param = os.getenv('extra_sonar_param')
 nvd_api_key = os.getenv('nvd_api_key')
 
+print("\n verbose_mode_enabled === %s" % verbose_mode_enabled)
+print("\n exclusion_file === %s" % exclusion_file)
+print("\n run_unit_test === %s" % run_unit_test)
+print("\n run_dcheck === %s" % run_dcheck)
+print("\n run_dtrack === %s" % run_dtrack)
+print("\n run_periphery === %s" % run_periphery)
+print("\n target_name === %s" % target_name)
+print("\n extra_sonar_param === %s" % extra_sonar_param)
+print("\n nvd_api_key === %s" % nvd_api_key)
+
 # Build project
 print("""\n\n
   _                 _                     
@@ -75,7 +93,7 @@ print("""\n\n
                             _|
 \n""", flush=True)
 
-print("\n    -> First, build the project \n", flush=True)
+print("\n  ----> Build the project (to generate deriveddata file & xcresult) \n", flush=True)
 xcodebuild_cmd = "xcrun xcodebuild "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
@@ -85,7 +103,7 @@ xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 xcodebuild_cmd += "-quiet "
 #xcodebuild_cmd += "clean test"
-print("xcodebuild_cmd === %s" % xcodebuild_cmd)
+print("\n xcodebuild_cmd === %s" % xcodebuild_cmd)
 os.system(xcodebuild_cmd);
 
 # Prepare sonar-scanner options
@@ -96,6 +114,11 @@ print("""\n\n
                           |
 \n""", flush=True)
 sonar_scanner_cmd = "sonar-scanner "
+
+# Install SwiftLint
+print("\n----> Install Swiftlint\n", flush=True)
+os.system("brew install swiftlint")
+print("\n----> SwiftLint installed\n", flush=True)
 
 # Authentification to sonar
 print("\n-> Add authentification to sonar options\n", flush=True)
@@ -175,7 +198,7 @@ print("""\n\n
  |  |_| | |   __) (_) | | (_| |      |  | |_/
  \n""", flush=True)
 
-print("\n-> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
+print("\n----> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
 os.system(sonar_scanner_cmd);
 
 # Dependency Track (third party libraries)
