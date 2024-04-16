@@ -19,7 +19,8 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
-os.system("pip3 install mobsfscan==0.2.0 --quiet");
+#os.system("pip3 install mobsfscan==0.2.0 --quiet");
+os.system("pip3 install mobsfscan --quiet");
 
 print("\n-> MobSF installed\n", flush=True)
 
@@ -79,8 +80,8 @@ xcodebuild_cmd += "-scheme %s " % scheme
 xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
-#xcodebuild_cmd += "-quiet "
-#xcodebuild_cmd += "clean test"
+xcodebuild_cmd += "-quiet "
+xcodebuild_cmd += "clean test"
 print("xcodebuild_cmd === %s" % xcodebuild_cmd)
 os.system(xcodebuild_cmd);
 
