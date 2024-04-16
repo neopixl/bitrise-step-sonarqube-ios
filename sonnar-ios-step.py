@@ -93,7 +93,7 @@ print("""\n\n
                             _|
 \n""", flush=True)
 
-print("\n  ----> Build the project (to generate deriveddata file & xcresult) \n", flush=True)
+print("\n  ----> Build the project (to generate derived data files & xcresult) \n", flush=True)
 xcodebuild_cmd = "xcrun xcodebuild "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
@@ -102,7 +102,8 @@ xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 xcodebuild_cmd += "-quiet "
-#xcodebuild_cmd += "clean test"
+#xcodebuild_cmd += "clean test"  
+xcodebuild_cmd += " > /dev/null" #no log output
 print("\n xcodebuild_cmd === %s" % xcodebuild_cmd)
 os.system(xcodebuild_cmd);
 
