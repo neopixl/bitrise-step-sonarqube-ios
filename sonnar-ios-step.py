@@ -115,11 +115,6 @@ print("""\n\n
 \n""", flush=True)
 sonar_scanner_cmd = "sonar-scanner "
 
-# Install SwiftLint
-print("\n----> Install Swiftlint\n", flush=True)
-os.system("brew install swiftlint")
-print("\n----> SwiftLint installed\n", flush=True)
-
 # Authentification to sonar
 print("\n-> Add authentification to sonar options\n", flush=True)
 sonar_scanner_cmd += "-Dsonar.host.url=%s " % sonar_host_url
