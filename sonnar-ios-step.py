@@ -171,7 +171,7 @@ if run_dcheck == "on":
     if podfile_path != "":
         pod_scan_option = "--scan %s" % podfile_path
 
-    dep_check_cmd = "dependency-check --enableExperimental --project %s --nvdApiKey %s --format JSON --format HTML %s %s" % (xcodeproj_path, nvd_api_key, spm_scan_option, pod_scan_option)
+    dep_check_cmd = "dependency-check --enableExperimental --project %s --nvdApiKey %s --format JSON --format HTML %s %s --data %s" % (xcodeproj_path, nvd_api_key, spm_scan_option, pod_scan_option, "/Users/vagrant/DependencyCheckCVECacheDB")
     print("\n-> Launch Dependency-check (to generate report file) cmd %s\n" % dep_check_cmd, flush=True)
     os.system(dep_check_cmd);
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
