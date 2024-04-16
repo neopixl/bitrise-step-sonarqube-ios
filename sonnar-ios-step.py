@@ -20,20 +20,12 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
-#os.system("pip3 install mobsfscan --break-system-packages --quiet");
 
-
-try:
-    result = subprocess.check_output("pip3 install mobsfscan --break-system-packages --quiet", shell=True, text=True)
-    print(result)
-except subprocess.CalledProcessError as e:
-    print(f"Error executing mobsf install: {e}")
-
-
+exit_code = os.system("pip3 install mobsfscan --break-system-packages --quiet")
+print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
 
 os.system("mobsfscan --v");
 
-print("\n----> MobSF installed\n", flush=True)
 
 # Retrieve all user injected variables
 print("""\n\n
@@ -112,11 +104,14 @@ xcodebuild_cmd += "-scheme %s " % scheme
 xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
-xcodebuild_cmd += "-quiet "
-#xcodebuild_cmd += "clean test"  
-xcodebuild_cmd += " > /dev/null" #no log output
+#xcodebuild_cmd += "clean test"
+if verbose_mode_enabled == 'on':
+    xcodebuild_cmd += " > /dev/null"
+
 print("\n xcodebuild_cmd === %s" % xcodebuild_cmd)
-os.system(xcodebuild_cmd);
+exit_code = os.system(xcodebuild_cmd);
+
+print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
 
 # Prepare sonar-scanner options
 print("""\n\n
