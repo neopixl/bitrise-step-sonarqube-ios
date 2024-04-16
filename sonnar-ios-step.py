@@ -15,7 +15,7 @@ project_root_path = "/Users/vagrant/git"
 # Install all dependencies
 print("""\n
  ___                                    __  _ 
-  |  ._   _ _|_  _. | |   |\/|  _  |_  (_  |_ 
+  |  ._   _ _|_  _. | |   | /|  _  |_  (_  |_ 
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
@@ -27,8 +27,8 @@ print("\n-> MobSF installed\n", flush=True)
 # Retrieve all user injected variables
 print("""\n\n
  ___                                                          
-  |  ._  o  _   _ _|_  _   _|   \  / _. ._ o  _. |_  |  _   _ 
- _|_ | | | (/_ (_  |_ (/_ (_|    \/ (_| |  | (_| |_) | (/_ _> 
+  |  ._  o  _   _ _|_  _   _|      / _. ._ o  _. |_  |  _   _ 
+ _|_ | | | (/_ (_  |_ (/_ (_|     / (_| |  | (_| |_) | (/_ _> 
         _|
  \n""", flush=True)
 
@@ -81,15 +81,15 @@ xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 xcodebuild_cmd += "-quiet "
-xcodebuild_cmd += "clean test"
+#xcodebuild_cmd += "clean test"
 print("xcodebuild_cmd === %s" % xcodebuild_cmd)
 os.system(xcodebuild_cmd);
 
 # Prepare sonar-scanner options
 print("""\n\n
   __                   _                      
- (_   _  ._   _. ._   / \ ._ _|_ o  _  ._   _ 
- __) (_) | | (_| |    \_/ |_) |_ | (_) | | _> 
+ (_   _  ._   _. ._   /   ._ _|_ o  _  ._   _ 
+ __) (_) | | (_| |      / |_) |_ | (_) | | _> 
                           |
 \n""", flush=True)
 sonar_scanner_cmd = "sonar-scanner "
@@ -167,8 +167,8 @@ sonar_scanner_cmd += "%s" % extra_sonar_param
 
 print("""\n\n
   _             __                   _       _  
- |_)     ._    (_   _  ._   _. ._   /  |\/| | \ 
- | \ |_| | |   __) (_) | | (_| |    \_ |  | |_/
+ |_)     ._    (_   _  ._   _. ._   /  | /| | \
+ |  |_| | |   __) (_) | | (_| |      |  | |_/
  \n""", flush=True)
 
 print("\n-> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
@@ -178,11 +178,11 @@ os.system(sonar_scanner_cmd);
 if run_dtrack == "on":
     print("""\n\n
       _____                            _                         _______             _    
-     |  __ \                          | |                       |__   __|           | |   
+     |  __                            | |                       |__   __|           | |   
      | |  | | ___ _ __   ___ _ __   __| | ___ _ __   ___ _   _     | |_ __ __ _  ___| | __
-     | |  | |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \ / __| | | |    | | '__/ _` |/ __| |/ /
+     | |  | |/ _   '_   / _   '_   / _` |/ _   '_   / __| | | |    | | '__/ _` |/ __| |/ /
      | |__| |  __/ |_) |  __/ | | | (_| |  __/ | | | (__| |_| |    | | | | (_| | (__|   < 
-     |_____/ \___| .__/ \___|_| |_|\__,_|\___|_| |_|\___|\__, |    |_|_|  \__,_|\___|_|\_\
+     |_____/  ___| .__/  ___|_| |_| __,_| ___|_| |_| ___| __, |    |_|_|   __,_|__ _|_| _\
                  | |                                      __/ |                           
                  |_|                                     |___/                            
 
