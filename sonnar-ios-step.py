@@ -1,5 +1,6 @@
 import os
 import json
+import subprocess
 
 print("""\n\n\n
 ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗██╗  ██╗██╗         ███████╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ███████╗████████╗███████╗██████╗ 
@@ -19,7 +20,17 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
-os.system("pip3 install mobsfscan --break-system-packages --quiet");
+#os.system("pip3 install mobsfscan --break-system-packages --quiet");
+
+
+try:
+    result = subprocess.check_output("pip3 install mobsfscan --break-system-packages --quiet", shell=True, text=True)
+    print(result)
+except subprocess.CalledProcessError as e:
+    print(f"Error executing mobsf install: {e}")
+
+
+
 os.system("mobsfscan --v");
 
 print("\n----> MobSF installed\n", flush=True)
