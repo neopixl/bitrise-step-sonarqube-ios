@@ -19,12 +19,10 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
-#os.system("pip3 install mobsfscan==0.1.2 --quiet");
-#os.system("pip3 install mobsfscan==0.2.0 --quiet");
-os.system("pip3 install mobsfscan --break-system-packages");
+os.system("pip3 install mobsfscan --break-system-packages --quiet");
 os.system("mobsfscan --v");
 
-print("\n-> MobSF installed\n", flush=True)
+print("\n----> MobSF installed\n", flush=True)
 
 # Retrieve all user injected variables
 print("""\n\n
