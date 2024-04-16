@@ -19,8 +19,8 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
-#os.system("pip3 install mobsfscan==0.2.0 --quiet");
-os.system("pip3 install mobsfscan --quiet");
+os.system("pip3 install mobsfscan==0.2.0 --quiet");
+#os.system("pip3 install mobsfscan --quiet");
 
 print("\n-> MobSF installed\n", flush=True)
 
@@ -52,9 +52,6 @@ sonar_project_name = os.getenv('sonar_project_key')
 sonar_host_url = os.getenv('sonar_host_url')
 sonar_login = os.getenv('sonar_login')
 sonar_branch = os.getenv('BITRISE_GIT_BRANCH')
-
-print("sonar_branchsonar_branchsonar_branchsonar_branch === %s" % sonar_branch)
-
 
 #other configuration
 print("\n-> Add other configuration\n", flush=True)
@@ -113,7 +110,6 @@ if xcworkspace_path != "":
 sonar_scanner_cmd += "-Dsonar.projectKey=%s " % sonar_project_name
 sonar_scanner_cmd += "-Dsonar.exclusions=%s " % exclusion_file
 sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
-
 sonar_scanner_cmd += "-Dsonar.branch.name='%s' " % sonar_branch
 
 #Get version
