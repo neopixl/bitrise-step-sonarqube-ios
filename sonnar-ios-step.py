@@ -105,7 +105,7 @@ xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 #xcodebuild_cmd += "clean test"
-if verbose_mode_enabled == 'on':
+if verbose_mode_enabled != 'on':
     xcodebuild_cmd += " > /dev/null"
 
 print("\n xcodebuild_cmd === %s" % xcodebuild_cmd)
