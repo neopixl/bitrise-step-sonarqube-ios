@@ -24,6 +24,8 @@ os.system("mobsfscan --v");
 
 print("\n----> MobSF installed\n", flush=True)
 
+os.system("brew install swiftlint")
+
 # Retrieve all user injected variables
 print("""\n\n
  ___                                                          
