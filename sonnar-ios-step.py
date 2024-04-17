@@ -105,7 +105,7 @@ xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
-if run_unit_test != 'on':
+if run_unit_test == "on":
     xcodebuild_cmd += "clean test"
 
 if verbose_mode_enabled != 'on':
@@ -156,7 +156,7 @@ sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
 # Unit test
 if run_unit_test == "on":
     print("\n-> Setup unit test in sonar cmd \n", flush=True)
-    #sonar.apple.resultBundlePath=custom/path/to/file.xcresult # Defaults to build/result.xcresult
+    sonar.apple.resultBundlePath = "build/result.xcresult" 
 
 # Dependency Check (security hotspot)
 if run_dcheck == "on":
