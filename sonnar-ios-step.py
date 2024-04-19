@@ -101,7 +101,7 @@ xcodebuild_cmd = "xcrun xcodebuild "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
-xcodebuild_cmd += "-destination 'generic/platform=iOS' "
+xcodebuild_cmd += "-destination 'generic/platform=iOS Simulator' "
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
