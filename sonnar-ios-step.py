@@ -176,7 +176,9 @@ if run_dcheck == "on":
 
     dep_check_cmd = "dependency-check --enableExperimental --project %s --nvdApiKey %s --format JSON --format HTML %s %s --data %s" % (xcodeproj_path, nvd_api_key, spm_scan_option, pod_scan_option, "/Users/vagrant/DependencyCheckCVECacheDB")
     print("\n-> Launch Dependency-check (to generate report file) cmd %s\n" % dep_check_cmd, flush=True)
-    os.system(dep_check_cmd);
+    exit_code = os.system(dep_check_cmd);
+    print("\n exit_code : depcheck === %s" % exit_code, flush=True)
+
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_root_path, "dependency-check-report.html")
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.summarize=true "
@@ -204,7 +206,10 @@ print("""\n\n
  \n""", flush=True)
 
 print("\n----> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
-os.system(sonar_scanner_cmd);
+exit_code = os.system(sonar_scanner_cmd);
+
+print("\n exit_code : sonar-scanner === %s" % exit_code, flush=True)
+
 
 # Dependency Track (third party libraries)
 if run_dtrack == "on":
