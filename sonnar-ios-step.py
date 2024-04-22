@@ -102,7 +102,7 @@ xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
 xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' "
-xcodebuild_cmd += "-resultBundlePath '/Users/vagrant/git/build/result.xcresult' "
+xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
 if run_unit_test == "on":
@@ -156,7 +156,7 @@ sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
 # Unit test
 if run_unit_test == "on":
     print("\n-> Setup unit test in sonar cmd \n", flush=True)
-    sonar_scanner_cmd += "-Dsonar.apple.resultBundlePath=/Users/vagrant/git/build/result.xcresult "
+    sonar_scanner_cmd += "-Dsonar.apple.resultBundlePath=build/result.xcresult "
 
 # Dependency Check (security hotspot)
 if run_dcheck == "on":
