@@ -156,7 +156,7 @@ sonar_scanner_cmd += "-Dsonar.projectVersion=%s " % projet_version
 # Unit test
 if run_unit_test == "on":
     print("\n-> Setup unit test in sonar cmd \n", flush=True)
-    sonar.apple.resultBundlePath = "build/result.xcresult" 
+    sonar_scanner_cmd += "-Dsonar.apple.resultBundlePath=build/result.xcresult"
 
 # Dependency Check (security hotspot)
 if run_dcheck == "on":
