@@ -24,8 +24,7 @@ print("""\n
 exit_code = os.system("pip3 install mobsfscan --break-system-packages --quiet")
 print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
 if exit_code != 0:
-    exit_func = "exit %d" % exit_code
-    os.system(exit_func)
+    os._exit(exit_code)
 
 os.system("mobsfscan --v");
 
@@ -119,12 +118,8 @@ exit_code = os.system(xcodebuild_cmd);
 
 print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
 
-exit_code = 333
 if exit_code != 0:
-    exit_func = "exit %d" % exit_code
-    print("\n exit_func : exit_func === %s" % exit_func, flush=True)
-    os._exit(2)
-    sys.exit(3)
+    os._exit(exit_code)
 
 # Prepare sonar-scanner options
 print("""\n\n
@@ -189,6 +184,9 @@ if run_dcheck == "on":
     exit_code = os.system(dep_check_cmd);
     print("\n exit_code : depcheck === %s" % exit_code, flush=True)
 
+    if exit_code != 0:
+        os._exit(exit_code)
+
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_root_path, "dependency-check-report.html")
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.summarize=true "
@@ -220,7 +218,9 @@ exit_code = os.system(sonar_scanner_cmd);
 
 print("\n exit_code : sonar-scanner === %s" % exit_code, flush=True)
 
-
+if exit_code != 0:
+    os._exit(exit_code)
+    
 # Dependency Track (third party libraries)
 if run_dtrack == "on":
     print("""\n\n
