@@ -22,9 +22,9 @@ print("""\n
 
 
 exit_code = os.system("pip3 install mobsfscan --break-system-packages --quiet")
-print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
 if exit_code != 0:
-    os._exit(exit_code)
+    print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
+    os._exit(1)
 
 os.system("mobsfscan --v");
 
@@ -113,13 +113,10 @@ if run_unit_test == "on":
 if verbose_mode_enabled != 'on':
     xcodebuild_cmd += " > /dev/null"
 
-print("\n xcodebuild_cmd === %s" % xcodebuild_cmd)
 exit_code = os.system(xcodebuild_cmd);
-
-print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
-
 if exit_code != 0:
-    os._exit(exit_code)
+    print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
+    os._exit(1)
 
 # Prepare sonar-scanner options
 print("""\n\n
@@ -182,10 +179,10 @@ if run_dcheck == "on":
     dep_check_cmd = "dependency-check --enableExperimental --project %s --nvdApiKey %s --format JSON --format HTML %s %s --data %s" % (xcodeproj_path, nvd_api_key, spm_scan_option, pod_scan_option, "/Users/vagrant/DependencyCheckCVECacheDB")
     print("\n-> Launch Dependency-check (to generate report file) cmd %s\n" % dep_check_cmd, flush=True)
     exit_code = os.system(dep_check_cmd);
-    print("\n exit_code : depcheck === %s" % exit_code, flush=True)
 
     if exit_code != 0:
-        os._exit(exit_code)
+        print("\n exit_code : depcheck === %s" % exit_code, flush=True)
+        os._exit(1)
 
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.jsonReportPath=%s/%s " % (project_root_path, "dependency-check-report.json")
     sonar_scanner_cmd += "-Dsonar.dependencyCheck.htmlReportPath=%s/%s " % (project_root_path, "dependency-check-report.html")
@@ -214,13 +211,12 @@ print("""\n\n
  \n""", flush=True)
 
 print("\n----> Final cmd sonar-scanner == %s\n\n" % sonar_scanner_cmd, flush=True)
+
 exit_code = os.system(sonar_scanner_cmd);
-
-print("\n exit_code : sonar-scanner === %s" % exit_code, flush=True)
-
 if exit_code != 0:
-    os._exit(exit_code)
-    
+    print("\n exit_code : sonar-scanner === %s" % exit_code, flush=True)
+    os._exit(1)
+
 # Dependency Track (third party libraries)
 if run_dtrack == "on":
     print("""\n\n
