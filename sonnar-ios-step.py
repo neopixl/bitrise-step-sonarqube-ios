@@ -23,6 +23,9 @@ print("""\n
 
 exit_code = os.system("pip3 install mobsfscan --break-system-packages --quiet")
 print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
+if exit_code != 0:
+    exit_func = "exit %d" % exit_code
+    os.system(exit_func)
 
 os.system("mobsfscan --v");
 
@@ -115,6 +118,11 @@ print("\n xcodebuild_cmd === %s" % xcodebuild_cmd)
 exit_code = os.system(xcodebuild_cmd);
 
 print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
+
+exit_code = 333
+if exit_code != 0:
+    exit_func = "exit %d" % exit_code
+    os.system(exit_func)
 
 # Prepare sonar-scanner options
 print("""\n\n
