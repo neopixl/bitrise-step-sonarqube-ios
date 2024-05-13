@@ -122,7 +122,8 @@ print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
 exit_code = 333
 if exit_code != 0:
     exit_func = "exit %d" % exit_code
-    os.system(exit_func)
+    print("\n exit_func : exit_func === %s" % exit_func, flush=True)
+    os.system(exit 1)
 
 # Prepare sonar-scanner options
 print("""\n\n
