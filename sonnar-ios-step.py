@@ -140,7 +140,7 @@ if xcworkspace_path != "":
 	sonar_scanner_cmd += "-Dsonar.apple.workspace=%s " % xcworkspace_path
 
 sonar_scanner_cmd += "-Dsonar.projectKey=%s " % sonar_project_name
-sonar_scanner_cmd += "-Dsonar.projectName='Visa - iOS'
+sonar_scanner_cmd += "-Dsonar.projectName='Visa - iOS' "
 sonar_scanner_cmd += "-Dsonar.exclusions=%s " % exclusion_file
 sonar_scanner_cmd += "-Dsonar.sources='%s' " % project_root_path
 sonar_scanner_cmd += "-Dsonar.branch.name='%s' " % sonar_branch
