@@ -21,7 +21,7 @@ print("""\n
 \n""", flush=True)
 
 
-exit_code = os.system("pip3 install mobsfscan")
+exit_code = os.system("pip3 install mobsfscan --break-system-packages")
 if exit_code != 0:
     print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
     os._exit(1)
