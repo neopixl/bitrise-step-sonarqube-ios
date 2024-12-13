@@ -56,34 +56,18 @@ function runCommand() {
 		else
 			echo "+" $command "$@"
 		fi
-
 	elif [ "$vflag" = "on" ]; then
 		echo
-
+		set -x
 		if [ "$redirect" = "/dev/stdout" ]; then
-			set -x #echo on
 			$command "$@"
-			returnValue=$?
-			set +x #echo off
 		elif [ "$redirect" != "no" ]; then
-			set -x #echo on
 			$command "$@" > $redirect
-			returnValue=$?
-			set +x #echo off
 		else
-			set -x #echo on
 			$command "$@"
-			returnValue=$?
-			set +x #echo off
 		fi
-
-		if [[ $returnValue != 0 && $returnValue != 5 ]] ; then
-			stopProgress
-			echo "ERROR - Command '$command $@' failed with error code: $returnValue"
-			exit $returnValue
-		fi
+		set +x
 	else
-
 		if [ "$redirect" = "/dev/stdout" ]; then
 			$command "$@" > /dev/null
 		elif [ "$redirect" != "no" ]; then
@@ -91,16 +75,6 @@ function runCommand() {
 		else
 			$command "$@"
 		fi
-
-        returnValue=$?
-		if [[ $returnValue != 0 && $returnValue != 5 ]] ; then
-			stopProgress
-			echo "ERROR - Command '$command $@' failed with error code: $returnValue"
-			exit $returnValue
-		fi
-
-
-		echo
 	fi
 }
 
@@ -319,10 +293,3 @@ fi
 
 # Kill progress indicator
 stopProgress
-
-#
-# --- Exit codes:
-# The exit code of your Step is very important. If you return
-#  with a 0 exit code `bitrise` will register your Step as "successful".
-# Any non zero exit code will be registered as "failed" by `bitrise`.
-exit 0
