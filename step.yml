@@ -55,7 +55,6 @@ deps:
     - name: wget
     - name: python
     - name: swiftlint
-    - name: sonarqube
     - name: sonar-scanner
   apt_get:
     - name: git
