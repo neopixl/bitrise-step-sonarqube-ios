@@ -1,6 +1,7 @@
 import os
 import json
 import subprocess
+import re
 
 print("""\n\n\n
 ███╗   ██╗███████╗ ██████╗ ██████╗ ██╗██╗  ██╗██╗         ███████╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ███████╗████████╗███████╗██████╗ 
@@ -104,8 +105,20 @@ xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
 
+# Récupérer le premier iPhone disponible
+devices = subprocess.run(['xcrun', 'simctl', 'list', 'devices', 'available'], 
+                       capture_output=True, text=True).stdout
+
+device = None
+for line in devices.split('\n'):
+    if re.search(r'iPhone [0-9]', line):
+        match = re.search(r'iPhone ([0-9]+[^(]*)', line)
+        if match:
+            device = f"iPhone {match.group(1).strip()}"
+            break
+			
 if run_unit_test == "on":
-    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14' "
+    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name={device}' "
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
