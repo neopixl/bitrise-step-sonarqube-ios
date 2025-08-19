@@ -105,7 +105,7 @@ xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
 
 if run_unit_test == "on":
-    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone' "
+    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=iPhone 14' "
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
