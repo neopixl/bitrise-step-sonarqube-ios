@@ -107,9 +107,9 @@ xcodebuild_cmd += "-scheme %s " % scheme
 
 # Récupérer les destinations disponibles
 result = subprocess.run([
-    "xcodebuild", "-showdestinations", 
-    "-workspace", "Frenchbee.xcworkspace", 
-    "-scheme", "Frenchbee-DEV"
+    "xcrun xcodebuild", "-showdestinations", 
+    "-xcworkspace_path", xcworkspace_path, 
+    "-scheme", scheme
 ], capture_output=True, text=True, check=True)
 
 # Parser pour trouver les simulateurs iPhone
