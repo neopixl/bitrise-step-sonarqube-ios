@@ -106,11 +106,19 @@ xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
 
 # Récupérer les destinations disponibles
-result = subprocess.run([
-    "xcrun xcodebuild", "-showdestinations", 
-    "-xcworkspace_path", xcworkspace_path, 
-    "-scheme", scheme
-], capture_output=True, text=True, check=True)
+try:
+    result = subprocess.run([
+        "xcodebuild", "-showdestinations", 
+        "-workspace", "Frenchbee.xcworkspace", 
+        "-scheme", "Frenchbee-DEV"
+    ], capture_output=True, text=True, check=True)
+except FileNotFoundError:
+    # Fallback: utiliser xcrun
+    result = subprocess.run([
+        "xcrun", "xcodebuild", "-showdestinations", 
+        "-workspace", "Frenchbee.xcworkspace", 
+        "-scheme", "Frenchbee-DEV"
+    ], capture_output=True, text=True, check=True)
 
 # Parser pour trouver les simulateurs iPhone
 destinations = []
