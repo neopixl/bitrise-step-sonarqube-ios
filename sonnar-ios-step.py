@@ -106,59 +106,65 @@ xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
 
 # Récupérer les destinations disponibles
+# Utiliser simctl pour lister les simulateurs (plus fiable)
 try:
     result = subprocess.run([
-        "xcodebuild", "-showdestinations", 
-        "-workspace", "Frenchbee.xcworkspace", 
-        "-scheme", "Frenchbee-DEV"
+        "xcrun", "simctl", "list", "devices", "available"
     ], capture_output=True, text=True, check=True)
-except FileNotFoundError:
-    # Fallback: utiliser xcrun
-    result = subprocess.run([
-        "xcrun", "xcodebuild", "-showdestinations", 
-        "-workspace", "Frenchbee.xcworkspace", 
-        "-scheme", "Frenchbee-DEV"
-    ], capture_output=True, text=True, check=True)
+    
+    # Parser la sortie pour trouver les iPhones
+    lines = result.stdout.split('\n')
+    available_simulators = []
+    
+    for line in lines:
+        # Chercher les lignes avec des iPhones
+        if 'iPhone' in line and '(' in line and ')' in line:
+            # Format: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Booted)"
+            # ou: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Shutdown)"
+            parts = line.strip().split('(')
+            if len(parts) >= 3:
+                name = parts[0].strip()
+                udid = parts[1].replace(')', '').strip()
+                available_simulators.append({
+                    "name": name,
+                    "udid": udid
+                })
 
-# Parser pour trouver les simulateurs iPhone
-destinations = []
-lines = result.stdout.split('\n')
-
-for line in lines:
-    if "platform:iOS Simulator" in line and "iPhone" in line:
-        name_match = re.search(r'name:([^,}]+)', line)
-        id_match = re.search(r'id:([^,}]+)', line)
-        
-        if name_match and id_match:
-            destinations.append({
-                "name": name_match.group(1).strip(),
-                "id": id_match.group(1).strip()
-            })
-
-# Priorités de sélection
-preferred_models = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 11"]
-
-# Trouver le meilleur match
-selected_device = None
-for preferred in preferred_models:
-    for dest in destinations:
-        if preferred in dest["name"]:
-            selected_device = dest
+    # Priorités de sélection
+    preferred_models = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 11"]
+    
+    # Trouver le meilleur match
+    selected_device = None
+    for preferred in preferred_models:
+        for sim in available_simulators:
+            if preferred in sim["name"]:
+                selected_device = sim
+                break
+        if selected_device:
             break
+    
+    # Fallback: prendre le premier iPhone
+    if not selected_device and available_simulators:
+        selected_device = available_simulators[0]
+    
     if selected_device:
-        break
+        print(f"✅ Simulateur trouvé: {selected_device['name']}")
+        destination = f"platform=iOS Simulator,id={selected_device['udid']}"
+        print(f"🎯 Destination: {destination}")
+    else:
+        # Fallback ultime: utiliser les IDs connus de votre environnement
+        print("⚠️  Utilisation d'un simulateur par défaut")
+        destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
+        print(f"🎯 Destination par défaut: {destination}")
 
-# Fallback: prendre le premier iPhone trouvé
-if not selected_device and destinations:
-    selected_device = destinations[0]
+except subprocess.CalledProcessError as e:
+    print(f"❌ Erreur simctl: {e}")
+    # Fallback avec ID connu qui fonctionne dans votre environnement
+    print("⚠️  Utilisation d'un simulateur par défaut")
+    destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
+    print(f"🎯 Destination par défaut: {destination}")
 
-if selected_device:
-    print(f"✅ Simulateur trouvé: {selected_device['name']}")
-    destination = f"platform=iOS Simulator,id={selected_device['id']}"
-    print(f"🎯 Destination: {destination}")
-else:
-    print("❌ Aucun simulateur iPhone trouvé")
-    destination = "platform=iOS Simulator,name=Any iOS Simulator Device"
+# La variable 'destination' est maintenant prête à utiliser
 
 
 
