@@ -105,30 +105,55 @@ xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 #xcodebuild_cmd += "-sdk iphonesimulator "
 
-# Récupérer le premier iPhone disponible
-print("Fallback: utilisation des destinations xcodebuild...")
-destinations = get_xcodebuild_destinations()
-selected_dest = select_best_destination(destinations)
-if selected_dest:
-    selected_device = {
-        "name": selected_dest["name"],
-        "udid": selected_dest["id"]
-    }
+# Récupérer les destinations disponibles
+result = subprocess.run([
+    "xcodebuild", "-showdestinations", 
+    "-workspace", "Frenchbee.xcworkspace", 
+    "-scheme", "Frenchbee-DEV"
+], capture_output=True, text=True, check=True)
 
-if not selected_device:
-    print("❌ Aucun simulateur iPhone trouvé")
-    return False
+# Parser pour trouver les simulateurs iPhone
+destinations = []
+lines = result.stdout.split('\n')
 
-print(f"✅ Simulateur sélectionné: {selected_device['name']}")
-print(f"📱 ID: {selected_device.get('udid', 'N/A')}")
+for line in lines:
+    if "platform:iOS Simulator" in line and "iPhone" in line:
+        name_match = re.search(r'name:([^,}]+)', line)
+        id_match = re.search(r'id:([^,}]+)', line)
+        
+        if name_match and id_match:
+            destinations.append({
+                "name": name_match.group(1).strip(),
+                "id": id_match.group(1).strip()
+            })
 
-# Construire la commande avec le simulateur sélectionné
-if 'udid' in selected_device:
-    destination = f"platform=iOS Simulator,id={selected_device['udid']}"
+# Priorités de sélection
+preferred_models = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 11"]
+
+# Trouver le meilleur match
+selected_device = None
+for preferred in preferred_models:
+    for dest in destinations:
+        if preferred in dest["name"]:
+            selected_device = dest
+            break
+    if selected_device:
+        break
+
+# Fallback: prendre le premier iPhone trouvé
+if not selected_device and destinations:
+    selected_device = destinations[0]
+
+if selected_device:
+    print(f"✅ Simulateur trouvé: {selected_device['name']}")
+    destination = f"platform=iOS Simulator,id={selected_device['id']}"
+    print(f"🎯 Destination: {destination}")
 else:
-    destination = f'platform=iOS Simulator,name={selected_device["name"]}'
+    print("❌ Aucun simulateur iPhone trouvé")
+    destination = "platform=iOS Simulator,name=Any iOS Simulator Device"
 
-print(f"\n🎯 DESTINATION FINALE: {destination}", flush=True)
+
+
 if run_unit_test == "on":
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
 else:
