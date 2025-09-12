@@ -118,7 +118,7 @@ for line in devices.split('\n'):
             break
 			
 if run_unit_test == "on":
-    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name={device}' "
+    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % device
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
