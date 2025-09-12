@@ -111,6 +111,7 @@ devices = subprocess.run(['xcrun', 'simctl', 'list', 'devices', 'available'],
 
 device = None
 for line in devices.split('\n'):
+	print("\n LINELINE === %s" % line, flush=True)
     if re.search(r'iPhone [0-9]', line):
         match = re.search(r'iPhone ([0-9]+[^(]*)', line)
         if match:
