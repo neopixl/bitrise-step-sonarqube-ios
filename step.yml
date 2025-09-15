@@ -51,7 +51,7 @@ run_if: ""
 
 deps:
   brew:
-    - name: peripheryapp/periphery/periphery@2.21.2
+    - name: peripheryapp/periphery/periphery
     - name: dependency-check
     - name: sonar-scanner
     - name: swiftlint
