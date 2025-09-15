@@ -263,7 +263,6 @@ if run_periphery == "on":
 
     sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
     sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "'/Users/vagrant/derivedData/Index.noindex/DataStore'"
-    sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
 # Verbose
 if verbose_mode_enabled == 'on':
