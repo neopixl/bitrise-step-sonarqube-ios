@@ -228,7 +228,6 @@ if run_unit_test == "on":
     print("\n-> Setup unit test in sonar cmd \n", flush=True)
     sonar_scanner_cmd += "-Dsonar.apple.resultBundlePath=build/result.xcresult "
     sonar_scanner_cmd += "-Dsonar.tests=BFxTXTests "
-    sonar_scanner_cmd += "-Dsonar.tests=BFxTXUITests "
 
 # Dependency Check (security hotspot)
 if run_dcheck == "on":
@@ -262,8 +261,10 @@ if run_dcheck == "on":
 # Periphery (code duplication & dead code)
 if run_periphery == "on":
     print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
-
+    
+	sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
     sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "'/Users/vagrant/derivedData/Index.noindex/DataStore'"
+    sonar_scanner_cmd += "-Dsonar.apple.periphery.targets=%s " % target_name
 
 # Verbose
 if verbose_mode_enabled == 'on':
