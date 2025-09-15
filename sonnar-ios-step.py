@@ -263,7 +263,6 @@ if run_dcheck == "on":
 if run_periphery == "on":
     print("\n-> Launch Periphery (code duplication & dead code)\n", flush=True)
 
-    sonar_scanner_cmd += "-Dsonar.apple.periphery.schemes=%s " % scheme
     sonar_scanner_cmd += "-Dsonar.apple.periphery.indexStorePath=%s " % "'/Users/vagrant/derivedData/Index.noindex/DataStore'"
 
 # Verbose
