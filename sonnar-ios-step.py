@@ -22,6 +22,9 @@ print("""\n
 \n""", flush=True)
 
 
+os.system("brew install mint")
+os.system("mint run peripheryapp/periphery@2.21.2")
+
 exit_code = os.system("pip3 install mobsfscan --break-system-packages --ignore-installed")
 if exit_code != 0:
     print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
