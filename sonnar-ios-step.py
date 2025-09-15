@@ -21,6 +21,17 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
+
+# Installer Mint
+subprocess.run(["brew", "install", "mint"], check=True)
+# Installer Periphery 2.21.2
+subprocess.run(["mint", "install", "peripheryapp/periphery@2.21.2"], check=True)
+# Créer lien symbolique pour accès global
+mint_periphery = os.path.expanduser("~/.mint/bin/periphery")
+subprocess.run(["sudo", "ln", "-sf", mint_periphery, "/usr/local/bin/periphery"], check=True)
+
+print("✅ Periphery installé - utilisez 'periphery scan'")
+
 exit_code = os.system("pip3 install mobsfscan --break-system-packages --ignore-installed")
 if exit_code != 0:
     print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
