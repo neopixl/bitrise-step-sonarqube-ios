@@ -239,7 +239,6 @@ if run_unit_test == "on":
     print("\n-> Setup unit test in sonar cmd \n", flush=True)
     sonar_scanner_cmd += "-Dsonar.apple.resultBundlePath=build/result.xcresult "
     sonar_scanner_cmd += "-Dsonar.tests=BFxTXTests "
-    sonar_scanner_cmd += "-Dsonar.tests=BFxTXUITests "
 
 # Dependency Check (security hotspot)
 if run_dcheck == "on":
