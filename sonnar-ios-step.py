@@ -84,6 +84,7 @@ print("\n----> Add other configuration\n", flush=True)
 verbose_mode_enabled = os.getenv('verbose_mode_enabled')
 exclusion_file = os.getenv('exclusion_file')
 run_unit_test = os.getenv('run_unit_test')
+test_plan_name = os.getenv('test_plan_name')
 run_dcheck = os.getenv('run_dcheck')
 run_dtrack = os.getenv('run_dtrack')
 run_periphery = os.getenv('run_periphery')
@@ -94,6 +95,7 @@ nvd_api_key = os.getenv('nvd_api_key')
 print("\n verbose_mode_enabled === %s" % verbose_mode_enabled)
 print("\n exclusion_file === %s" % exclusion_file)
 print("\n run_unit_test === %s" % run_unit_test)
+print("\n test_plan_name === %s" % test_plan_name)
 print("\n run_dcheck === %s" % run_dcheck)
 print("\n run_dtrack === %s" % run_dtrack)
 print("\n run_periphery === %s" % run_periphery)
@@ -187,7 +189,10 @@ xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
 if run_unit_test == "on":
-    xcodebuild_cmd += "clean test"
+    xcodebuild_cmd += "clean test "
+
+if test_plan_name != "":
+	xcodebuild_cmd += "-testPlan %s " % test_plan_name
 
 if verbose_mode_enabled != 'on':
     xcodebuild_cmd += " > /dev/null"
