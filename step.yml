@@ -147,6 +147,13 @@ inputs:
         default to off. Unit test activated or not. (if on, will build the project)
       is_expand: true
       is_required: true
+  - test_plan_name: ""
+    opts:
+      title: "Test Plan Name"
+      description: |
+        default is empty. Is a plan name is given, we launch the given test plan during the test
+      is_expand: true
+      is_required: false
   - extra_sonar_param: ""
     opts:
       title: "Extra sonar scanner parameters"
