@@ -105,49 +105,49 @@ xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
 
 if run_unit_test == "on":
-# Get all the existing installed simulator to use the most recent (for unit & UI Test)
-try:
-    result = subprocess.run([
-        "xcrun", "simctl", "list", "devices", "available"
-    ], capture_output=True, text=True, check=True)
+    # Get all the existing installed simulator to use the most recent (for unit & UI Test)
+    try:
+        result = subprocess.run([
+            "xcrun", "simctl", "list", "devices", "available"
+        ], capture_output=True, text=True, check=True)
     
-    lines = result.stdout.split('\n')
-    available_simulators = []
+        lines = result.stdout.split('\n')
+        available_simulators = []
     
-    for line in lines:
-        if 'iPhone' in line and '(' in line and ')' in line:
-            # Format: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Booted)"
-            # or: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Shutdown)"
-            parts = line.strip().split('(')
-            if len(parts) >= 3:
-                name = parts[0].strip()
-                udid = parts[1].replace(')', '').strip()
-                available_simulators.append({
-                    "name": name,
-                    "udid": udid
-                })
+        for line in lines:
+            if 'iPhone' in line and '(' in line and ')' in line:
+                # Format: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Booted)"
+                # or: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Shutdown)"
+                parts = line.strip().split('(')
+                if len(parts) >= 3:
+                    name = parts[0].strip()
+                    udid = parts[1].replace(')', '').strip()
+                    available_simulators.append({
+                        "name": name,
+                        "udid": udid
+                    })
 				
-    preferred_models = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 11"]
+        preferred_models = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 11"]
     
-    selected_device = None
-    for preferred in preferred_models:
-        for sim in available_simulators:
-            if preferred in sim["name"]:
-                selected_device = sim
+        selected_device = None
+        for preferred in preferred_models:
+            for sim in available_simulators:
+                if preferred in sim["name"]:
+                    selected_device = sim
+                    break
+            if selected_device:
                 break
+        if not selected_device and available_simulators:
+            selected_device = available_simulators[0]
         if selected_device:
-            break
-    if not selected_device and available_simulators:
-        selected_device = available_simulators[0]
-    if selected_device:
-        destination = f"platform=iOS Simulator,id={selected_device['udid']}"
-    else:
+            destination = f"platform=iOS Simulator,id={selected_device['udid']}"
+        else:
+            destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
+    except subprocess.CalledProcessError as e:
         destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
-except subprocess.CalledProcessError as e:
-    destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
-    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
-else:
-    xcodebuild_cmd += "-destination 'generic/platform=iOS' "
+        xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
+    else:
+        xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
