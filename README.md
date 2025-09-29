@@ -52,7 +52,34 @@ Don't forget to force the version of this step by using **@x.y** at the end of *
 
 ### Adding Parameters
 
-To manage parameters for this step, just look at the step details (configuration) in Bitrise.
+To set parameters for this step, just look at the step details (configuration) in Bitrise.
+
+### Required Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `xcode_project_path` | Path to the `.xcodeproj` file | `MyApp.xcodeproj` |
+| `app_scheme` | Xcode scheme name | `MyApp` |
+| `target_name` | Main target name | `MyApp` |
+| `sonar_project_key` | SonarQube project key | `com.company.myapp` |
+| `sonar_host_url` | SonarQube server URL | `https://sonar.example.com` |
+| `sonar_login` | SonarQube authentication token | `squ_xxxxxxxxxxxxx` |
+| `nvd_api_key` | NVD API key for Dependency-Check | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+
+### Optional Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `xcode_workspace_path` | `""` | Path to `.xcworkspace` (if using CocoaPods) |
+| `podfile_path` | `""` | Path to `Podfile.lock` |
+| `run_unit_test` | `off` | Run unit tests (`on`/`off`) |
+| `test_plan_name` | `""` | Test plan name to execute |
+| `run_dcheck` | `on` | Enable Dependency-Check (`on`/`off`) |
+| `run_dtrack` | `off` | Enable Dependency-Track (`on`/`off`) |
+| `run_periphery` | `on` | Enable Periphery (`on`/`off`) |
+| `exclusion_file` | `**/*.xml,Pods/**/*,...` | File patterns to exclude |
+| `extra_sonar_param` | `""` | Additional parameters for sonar-scanner |
+| `verbose_mode_enabled` | `off` | Verbose mode (`on`/`off`) |
 
 ## 🤝 Contributing
 
