@@ -146,8 +146,8 @@ if run_unit_test == "on":
     except subprocess.CalledProcessError as e:
         destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
         xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
-    else:
-        xcodebuild_cmd += "-destination 'generic/platform=iOS' "
+else:
+    xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
