@@ -50,10 +50,10 @@ if os.getenv('podfile_path') != "":
 
 scheme = os.getenv('app_scheme')
 
-print("\n xcodeproj_path === %s" % xcodeproj_path)
-print("\n xcworkspace_path === %s" % xcworkspace_path)
-print("\n podfile_path === %s" % podfile_path)
-print("\n scheme === %s" % scheme)
+print("\n xcodeproj_path === %s" % xcodeproj_path, flush=True)
+print("\n xcworkspace_path === %s" % xcworkspace_path, flush=True)
+print("\n podfile_path === %s" % podfile_path, flush=True)
+print("\n scheme === %s" % scheme, flush=True)
 
 #sonar server configuration
 print("\n----> Add Sonar server configuration\n", flush=True)
@@ -62,10 +62,10 @@ sonar_host_url = os.getenv('sonar_host_url')
 sonar_login = os.getenv('sonar_login')
 sonar_branch = os.getenv('BITRISE_GIT_BRANCH')
 
-print("\n sonar_project_name === %s" % sonar_project_name)
-print("\n sonar_host_url === %s" % sonar_host_url)
-print("\n sonar_login === %s" % sonar_login)
-print("\n sonar_branch === %s" % sonar_branch)
+print("\n sonar_project_name === %s" % sonar_project_name, flush=True)
+print("\n sonar_host_url === %s" % sonar_host_url, flush=True)
+print("\n sonar_login === %s" % sonar_login, flush=True)
+print("\n sonar_branch === %s" % sonar_branch, flush=True)
 
 #other configuration
 print("\n----> Add other configuration\n", flush=True)
@@ -80,16 +80,16 @@ target_name = os.getenv('target_name')
 extra_sonar_param = os.getenv('extra_sonar_param')
 nvd_api_key = os.getenv('nvd_api_key')
 
-print("\n verbose_mode_enabled === %s" % verbose_mode_enabled)
-print("\n exclusion_file === %s" % exclusion_file)
-print("\n run_unit_test === %s" % run_unit_test)
-print("\n test_plan_name === %s" % test_plan_name)
-print("\n run_dcheck === %s" % run_dcheck)
-print("\n run_dtrack === %s" % run_dtrack)
-print("\n run_periphery === %s" % run_periphery)
-print("\n target_name === %s" % target_name)
-print("\n extra_sonar_param === %s" % extra_sonar_param)
-print("\n nvd_api_key === %s" % nvd_api_key)
+print("\n verbose_mode_enabled === %s" % verbose_mode_enabled, flush=True)
+print("\n exclusion_file === %s" % exclusion_file, flush=True)
+print("\n run_unit_test === %s" % run_unit_test, flush=True)
+print("\n test_plan_name === %s" % test_plan_name, flush=True)
+print("\n run_dcheck === %s" % run_dcheck, flush=True)
+print("\n run_dtrack === %s" % run_dtrack, flush=True)
+print("\n run_periphery === %s" % run_periphery, flush=True)
+print("\n target_name === %s" % target_name, flush=True)
+print("\n extra_sonar_param === %s" % extra_sonar_param, flush=True)
+print("\n nvd_api_key === %s" % nvd_api_key, flush=True)
 
 # Build project
 print("""\n\n
@@ -106,6 +106,7 @@ xcodebuild_cmd += "-scheme %s " % scheme
 
 if run_unit_test == "on":
     # Get all the existing installed simulator to use the most recent (for unit & UI Test)
+	print("\n Start finding a simulator", flush=True)
     try:
         result = subprocess.run([
             "xcrun", "simctl", "list", "devices", "available"
@@ -140,11 +141,14 @@ if run_unit_test == "on":
         if not selected_device and available_simulators:
             selected_device = available_simulators[0]
         if selected_device:
+			print("\n Selectd Device : %s" % selected_device, flush=True)
             destination = f"platform=iOS Simulator,id={selected_device['udid']}"
         else:
             destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
+			print("\n Selectd Device not found (else)", flush=True)
     except subprocess.CalledProcessError as e:
         destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
+        print("\n Selectd Device not found (except)", flush=True)
         xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
