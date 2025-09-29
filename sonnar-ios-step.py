@@ -157,7 +157,7 @@ xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
 if run_unit_test == "on":
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
-	xcodebuild_cmd += "clean test "
+    xcodebuild_cmd += "clean test "
 
 if test_plan_name != "":
 	xcodebuild_cmd += "-testPlan %s " % test_plan_name
