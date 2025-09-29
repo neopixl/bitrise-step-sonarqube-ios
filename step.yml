@@ -65,16 +65,16 @@ toolkit:
 inputs:
   - xcode_project_path:
     opts:
-      title: "Xcode Project path (ie: Tango.xcodeproj)"
+      title: "Xcode Project path (ie: projectName.xcodeproj)"
       description: |
         Xcode Project (.xcodeproj) path. (ie: Tango.xcodeproj)
       is_expand: true
       is_required: true
   - xcode_workspace_path:
     opts:
-      title: "(opt) Xcode Workspace path (ie: Tango.xcworkspace)"
+      title: "(opt) Xcode Workspace path (ie: projectName.xcworkspace)"
       description: |
-        (only if exist (using cocoapods for exemple)) Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: Tango.xcworkspace)
+        (only if exist (using cocoapods for exemple)) Xcode Workspace (.xcworkspace) path. (only used if u used cocoapods or workspace) (ie: projectName.xcworkspace)
       is_expand: true
       is_required: false
   - podfile_path:
@@ -123,7 +123,7 @@ inputs:
     opts:
       title: "Dependency-check"
       description: |
-        default to on. run dependency-check
+        default to on. run dependency-Check
       is_expand: true
       is_required: true
   - run_dtrack: "off"
@@ -151,7 +151,7 @@ inputs:
     opts:
       title: "Test Plan Name"
       description: |
-        default is empty. Is a plan name is given, we launch the given test plan during the test
+        default is empty. If a plan name is given, we launch the given test plan during the test
       is_expand: true
       is_required: false
   - extra_sonar_param: ""
