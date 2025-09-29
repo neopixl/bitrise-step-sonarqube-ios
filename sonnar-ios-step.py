@@ -21,24 +21,12 @@ print("""\n
  _|_ | | _>  |_ (_| | |   |  | (_) |_) __) |
 \n""", flush=True)
 
-
-# Installer Mint
-subprocess.run(["brew", "install", "mint"], check=True)
-# Installer Periphery 2.21.2
-subprocess.run(["mint", "install", "peripheryapp/periphery@2.21.2"], check=True)
-# Créer lien symbolique pour accès global
-mint_periphery = os.path.expanduser("~/.mint/bin/periphery")
-subprocess.run(["sudo", "ln", "-sf", mint_periphery, "/usr/local/bin/periphery"], check=True)
-
-print("✅ Periphery installé - utilisez 'periphery scan'")
-
 exit_code = os.system("pip3 install mobsfscan --break-system-packages --ignore-installed")
 if exit_code != 0:
     print("\n exit_code : instalMobsf === %s" % exit_code, flush=True)
     os._exit(1)
 
 os.system("mobsfscan --v");
-
 
 # Retrieve all user injected variables
 print("""\n\n
@@ -115,24 +103,21 @@ print("\n  ----> Build the project (to generate derived data files & xcresult) \
 xcodebuild_cmd = "xcrun xcodebuild "
 xcodebuild_cmd += "-project %s " % xcodeproj_path
 xcodebuild_cmd += "-scheme %s " % scheme
-#xcodebuild_cmd += "-sdk iphonesimulator "
 
-# Récupérer les destinations disponibles
-# Utiliser simctl pour lister les simulateurs (plus fiable)
+if run_unit_test == "on":
+# Get all the existing installed simulator to use the most recent (for unit & UI Test)
 try:
     result = subprocess.run([
         "xcrun", "simctl", "list", "devices", "available"
     ], capture_output=True, text=True, check=True)
     
-    # Parser la sortie pour trouver les iPhones
     lines = result.stdout.split('\n')
     available_simulators = []
     
     for line in lines:
-        # Chercher les lignes avec des iPhones
         if 'iPhone' in line and '(' in line and ')' in line:
             # Format: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Booted)"
-            # ou: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Shutdown)"
+            # or: "    iPhone 15 Pro (009F5F88-4ACF-4F1B-B9B5-1A0ADA953339) (Shutdown)"
             parts = line.strip().split('(')
             if len(parts) >= 3:
                 name = parts[0].strip()
@@ -141,11 +126,9 @@ try:
                     "name": name,
                     "udid": udid
                 })
-
-    # Priorités de sélection
+				
     preferred_models = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone 14", "iPhone 11"]
     
-    # Trouver le meilleur match
     selected_device = None
     for preferred in preferred_models:
         for sim in available_simulators:
@@ -154,33 +137,14 @@ try:
                 break
         if selected_device:
             break
-    
-    # Fallback: prendre le premier iPhone
     if not selected_device and available_simulators:
         selected_device = available_simulators[0]
-    
     if selected_device:
-        print(f"✅ Simulateur trouvé: {selected_device['name']}")
         destination = f"platform=iOS Simulator,id={selected_device['udid']}"
-        print(f"🎯 Destination: {destination}")
     else:
-        # Fallback ultime: utiliser les IDs connus de votre environnement
-        print("⚠️  Utilisation d'un simulateur par défaut")
         destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
-        print(f"🎯 Destination par défaut: {destination}")
-
 except subprocess.CalledProcessError as e:
-    print(f"❌ Erreur simctl: {e}")
-    # Fallback avec ID connu qui fonctionne dans votre environnement
-    print("⚠️  Utilisation d'un simulateur par défaut")
     destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
-    print(f"🎯 Destination par défaut: {destination}")
-
-# La variable 'destination' est maintenant prête à utiliser
-
-
-
-if run_unit_test == "on":
     xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
