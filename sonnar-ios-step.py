@@ -149,7 +149,6 @@ if run_unit_test == "on":
     except subprocess.CalledProcessError as e:
         destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
         print("\n Selectd Device not found (except)", flush=True)
-        xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
@@ -157,7 +156,8 @@ xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
 if run_unit_test == "on":
-    xcodebuild_cmd += "clean test "
+    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
+	xcodebuild_cmd += "clean test "
 
 if test_plan_name != "":
 	xcodebuild_cmd += "-testPlan %s " % test_plan_name
