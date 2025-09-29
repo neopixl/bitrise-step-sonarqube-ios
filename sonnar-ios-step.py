@@ -141,7 +141,7 @@ if run_unit_test == "on":
         if not selected_device and available_simulators:
             selected_device = available_simulators[0]
         if selected_device:
-            print("coucou")
+            print("\n Selectd Device %s" % selected_device, flush=True)
             destination = "platform=iOS Simulator,id={selected_device['udid']}"
         else:
             destination = "platform=iOS Simulator,id=530995AC-7FD7-4BAC-8B8C-5872330580B5"  # iPhone 16 Pro
