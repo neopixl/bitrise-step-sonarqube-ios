@@ -52,8 +52,11 @@ run_if: ""
 deps:
   brew:
     - name: dependency-check
-    - name: sonar-scanner
     - name: swiftlint
+    - name: git
+    - name: wget
+    - name: python
+    - name: sonar-scanner
   apt_get:
     - name: git
     - name: wget
@@ -168,6 +171,14 @@ inputs:
         nvd_api_key
       is_expand: true
       is_required: true
+  - enable_detailed_log: "off"
+    opts:
+       title: "Enable detailed log for debugging mode"
+       is_expand: true
+       is_required: true
+       value_options:
+       - "on"
+       - "off"
   - exclusion_file: "**/*.xml,Pods/**/*,Reports/**/*,**/SourcePackages/checkouts/**/*,**/*.html"
     opts:
       title: "Exclusion files"
