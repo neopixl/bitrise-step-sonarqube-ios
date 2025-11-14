@@ -5,6 +5,7 @@ app:
   envs:
   # Secret params, define it in .bitrise.secrets.yml
   - SONAR_HOST_LOGIN: $SONAR_HOST_LOGIN
+  - BITRISE_GIT_BRANCH: $BITRISE_GIT_BRANCH
 
 workflows:
   test:
