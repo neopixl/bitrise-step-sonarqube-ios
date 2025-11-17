@@ -165,6 +165,8 @@ if test_plan_name != "":
 if verbose_mode_enabled != 'on':
     xcodebuild_cmd += " > /dev/null"
 
+print("xcodebuild_cmd : %s" % xcodebuild_cmd, flush=True)
+
 exit_code = os.system(xcodebuild_cmd);
 if exit_code != 0:
     print("\n exit_code : XcodeBuild === %s" % exit_code, flush=True)
