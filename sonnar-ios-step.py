@@ -156,7 +156,7 @@ xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
 if run_unit_test == "on":
-    xcodebuild_cmd += "-destination 'platform=iOS Simulator,name=%s' " % selected_device["name"]
+    xcodebuild_cmd += "-destination 'platform=iOS Simulator,id=%s' " % selected_device["udid"]
     xcodebuild_cmd += "clean test "
 
 if test_plan_name != "":
