@@ -152,6 +152,10 @@ if run_unit_test == "on":
 else:
     xcodebuild_cmd += "-destination 'generic/platform=iOS' "
 
+xcodebuild_cmd += "EXCLUDED_ARCHS='' "
+xcodebuild_cmd += "EXCLUDED_ARCHS[sdk=iphonesimulator*]='' "
+xcodebuild_cmd += "ONLY_ACTIVE_ARCH=YES "
+
 xcodebuild_cmd += "-resultBundlePath 'build/result.xcresult' "
 xcodebuild_cmd += "-derivedDataPath '/Users/vagrant/derivedData' "
 
